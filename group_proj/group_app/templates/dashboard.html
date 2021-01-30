@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">   
+    <title>dashboard</title>
+</head>
+<body>
+    <div class="container">
+                  
+        <h1>Welcome, {{ user.first_name }}!</h1>
+        <a href="/ABC/myProfile">myProfile </a>  |  <a href="/ABC/myEvents">myEvents </a>  
+        <a class="float-right" href="/ABC/logout">Log Out</a> 
+        <br><br><br><br>
+        <p> This is the Dashboard page</p>
+        <br>
+        <p> It will show all the Active events from our "Event" table.  It will also allow us to "search" for a specific event</p>
+        <br><br><br>
+        <hr>
+        <p></p>
+        <a href="/ABC/newJoin"><strong>when the ACTION = JOIN is clicked a confirmation  selection will be displayed -newJoin page</strong></a> 
+
+    </div>
+</body>
+</html>

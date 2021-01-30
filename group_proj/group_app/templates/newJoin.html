@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">   
+    <title>New Join Event </title>
+</head>
+<body>
+    <div class="container">
+                  
+        <h1>Welcome, {{ user.first_name }}!</h1>
+        <a href="/ABC/dashboard">Dashboard </a>  |  <a href="/ABC/myProfile">myProfile </a>  |  <a href="/ABC/myEvents">myEvents </a> 
+        <a class="float-right" href="/ABC/logout">Log Out</a> 
+        <br><br><br><br>
+        <p> This is the new Join Event  page</p>
+        <br>
+        <p> It will show the the Confirmation selection page since a parent may have multiple children</p>
+        <br><br>
+        <p>this page is called from the Dashboard when the action of JOIN is selected</p>
+        <br>
+        <hr>
+        <p></p>
+        <a href="/ABC/confirmJoin"><strong>when the CONFIRM button is clicked  -I will show the Details of that SPECIFIC event, a map and the wall</strong></a> 
+        <br><br>
+        <p>this should ALSO UPDATE myEvents page-----</p>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">   
+    <title>myProfile</title>
+</head>
+<body>
+    <div class="container">
+                  
+        <h1>Welcome, {{ user.first_name }}!</h1>
+        <a href="/ABC/dashboard">Dashboard </a>  |   <a href="/ABC/myEvents">myEvents </a> 
+        <a class="float-right" href="/ABC/logout">Log Out</a> 
+        <br><br><br><br>
+        <p> This is myProfile page</p>
+        <br>
+        <p> It will show the Details of the Active parent/guardian</p>
+        <p> The parent/guardian will be able to change/update password</p>
+        <p> The parent/guardian will be able to remove/delete any children enrolled -maybe there should be at least one child enrolled????</p>
+        <br><br>
+        
+        <a href="/ABC/childForm"><strong>when the Add a CHILD button is clicked  -it will show the childForm -validation needed here</strong></a> 
+        <br><br>
+        
+        <br>
+        <hr>
+        <p></p>
+       
+
+    </div>
+</body>
+</html>
