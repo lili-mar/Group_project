@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">   
+    <title>Add a Child</title>
+</head>
+<body>
+    <div class="container">
+                  
+        <h1>Welcome, {{ user.first_name }}!</h1>
+        
+        <a class="float-right" href="/ABC/logout">Log Out</a> 
+        <br><br><br><br>
+        <p> This is the page to add/register a new Child -AFTER successful validation</p>
+        <br>
+        <p> It will display the form to add/register a new Child</p>
+        <br><br>
+        <p>this page can be called from myEvents and from myProfile pages when the Add a Child link is clicked</p>
+        <br>
+        <hr>
+        <p></p>
+        <p>FOR NOW -the link will log you out because there is no form pointing anywhere -there is no CHILD model yet -but you get the point</p>
+        <a href="/ABC/myProfile"><strong>when the REGISTER a CHILD button is clicked  -it will show myProfile with the Enrolled Child(ren) updated</strong></a> 
+       
+        <br><br>
+        <br><br>
+        
+
+    </div>
+</body>
+</html>
