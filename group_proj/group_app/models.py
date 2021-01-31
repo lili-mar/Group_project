@@ -64,7 +64,33 @@ class User(models.Model):
 #-------------------end of USER ---------------------------------------------------------
 
 #----add your new models here----
-#
+
+class Child(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    birth_date = models.DateTimeField()
+    gender = models.CharField(max_length=10)
+    grade = models.IntegerField(max_length=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    parent_child = models.ForeignKey(User, related_name="enrolled_parent",on_delete=models.CASCADE)  #OneParentManyChildren and ManyChildren can belong to OneParent
+
+class Event(models.Model):
+    event_name = models.CharField(max_length=250)
+    location = models.CharField(max_length=250)
+    user= models.CharField(max_length=250)
+    date= models.DateField (auto_now_add=True)
+    time= models.TimeField(auto_now_add=True)
+    max_capacity= models.IntegerField(max_length=100)
+    action_enrolled=models.CharField(max_length=10)
+    action_class_full=models.CharField(max_length=10)
+    street_address = models.CharField(max_length=255)
+    city = models.CharField(max_length=60)
+    state = models.CharField(max_length=2)
+    zip_code= models.CharField(max_length=5)
+    child_event= models.ManyToManyField(Child, related_name='enrolled_child')
+    user_event=models.ManyToManyField(User, related_name='enrolled_user') 
+    child_EvtJoin = models.ForeignKey(Child, related_name="ChildEvents_join",on_delete=models.CASCADE)  #OneChildManyEvents and ManyChildren can belong to OneEvent
 #---end of adding new models
 
 
