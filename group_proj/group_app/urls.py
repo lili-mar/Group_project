@@ -21,6 +21,8 @@ urlpatterns = [
     path('regChild', views.regChild),  # validate registration for a Child
 
     path('myProfile', views.myProfile),
+    path('update_myProfile', views.update_myProfile,
+         name='update_myProfile'),  # update myProfile
     path('myEvents', views.myEvents),
     path('dashboard', views.dashboard),
     path('newJoin', views.newJoin),

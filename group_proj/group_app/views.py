@@ -27,7 +27,7 @@ def login(request):
 
             this_user = User.objects.get(email=request.POST['email'])
             request.session['user_id'] = this_user.id
-            #messages.success(request, "You have successfully logged in!")
+            # messages.success(request, "You have successfully logged in!")
             return redirect('/ABC/myEvents')
 
 
@@ -55,7 +55,7 @@ def register(request):
                 email=request.POST['email'],
                 password=hashed_pw)
             request.session['user_id'] = new_user.id
-            #messages.success(request, "You have successfully registered!")
+            # messages.success(request, "You have successfully registered!")
             return redirect('/ABC/dashboard')
 
 
@@ -78,6 +78,16 @@ def myProfile(request):
         'user': user,
     }
     return render(request, 'myProfile.html', context)
+
+
+def update_myProfile(request):
+    if request.method == "POST":
+        hashed_pw = bcrypt.hashpw(
+            request.POST['password'].encode(), bcrypt.gensalt()).decode()
+        user = User.objects.get(id=request.session['user_id'])
+        user.password = hashed_pw
+        user.save()
+        return redirect('/ABC/dashboard')
 
 
 def myEvents(request):
