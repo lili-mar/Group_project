@@ -65,6 +65,29 @@ class User(models.Model):
 
 #----add your new models here----
 
+class ChildManager(models.Manager):
+    def child_validator(self, postData):
+
+        errors = {}
+        #print(postData)
+
+        if len(postData['first_name']) < 2:
+            errors['first_name'] = 'First Name must be at least 2 characters'
+
+        if len(postData['last_name']) < 2:
+            errors['last_name'] = 'Last Name must be at least 2 characters'
+        
+        if len(postData['birth_date']) == 0:
+            errors['birth_date'] = "Please fill out child's birth date"
+
+        if "child_gender" not in postData or len(postData['child_gender']) ==0:
+            errors['child_gender'] = 'Please fill out the gender of your child'
+
+        if len(postData['child_grade']) == 0:
+            errors['child_grade'] = 'Please fill out the grade of the child'
+        
+        return errors
+
 class Child(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -74,6 +97,7 @@ class Child(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     parent_child = models.ForeignKey(User, related_name="enrolled_parent",on_delete=models.CASCADE)  #OneParentManyChildren and ManyChildren can belong to OneParent
+    objects = ChildManager()
 
 class Event(models.Model):
     event_name = models.CharField(max_length=250)

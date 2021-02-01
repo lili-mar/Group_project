@@ -30,7 +30,7 @@ def login(request):
             return redirect('/ABC/myEvents')
 
 def regForm(request):
-    request.session.flush()
+    #request.session.flush()
     return render(request, 'regForm.html')
 
 def register(request):
@@ -56,11 +56,37 @@ def register(request):
 
 
 def childForm(request):
-    request.session.flush()
-    return render(request, 'childForm.html')
+    if 'user_id' not in request.session:
+        return redirect('/ABC')
+    user = User.objects.get(id=request.session['user_id'])
+    context = {
+        'user':user,
+    }
+    return render(request, 'childForm.html', context)
 
 def regChild(request):
     #see "register" -here it needs the Child model
+    if request.method=="POST":
+        #class Child(models.Model):
+        #def child_validator(self, postData):
+        errors = Child.objects.child_validator(request.POST)
+        if len(errors) > 0:
+            for key, value in errors.items():
+                messages.error(request, value)
+            return redirect('/ABC/childForm')    #redirect the user back to the form to fix the errors
+
+        else:
+            user = User.objects.get(id=request.session['user_id'])
+
+            Child.objects.create(
+                first_name = request.POST['first_name'],
+                last_name = request.POST['last_name'],
+                birth_date = request.POST['birth_date'],
+                gender = request.POST['child_gender'],
+                grade = request.POST['child_grade'],
+                parent_child = user,
+            )
+        
     return redirect('/ABC/myProfile') #when successful Register a Child is click redirect back to myProfile
 
 def myProfile(request): 
