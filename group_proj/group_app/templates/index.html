@@ -1,93 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">   
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Welcome to the CommunEty -login</title>
 </head>
+
 <body>
-    
+
     <div class="container">
         <div class="jumbotron jumbotron-fluid">
-            <h1 class="display-3 text-center" ><strong>From ABC ChildCare to our community -Welcome!</strong></h1>
+            <h1 class="display-3 text-center"><strong>From ABC ChildCare to our community -Welcome!</strong></h1>
         </div>
-           
+
         <div class="row">
-            <div class="col" id="left">   
+            <div class="col" id="left">
                 <br>
-                <div class="card">                   
+                <div class="card">
                     <div class="card-body">
-                      <h3 class="card-title">Login</h3>
+                        <h3 class="card-title">Login</h3>
                         <form class='partlogin' action="/ABC/login" method="POST">
                             {% csrf_token %}
-                              
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" name="email" id="email" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input type="password" name="password" id="password" class="form-control">
-                                </div>
-                                
+
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" name="email" id="email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" name="password" id="password" class="form-control">
+                            </div>
+
                             <button class="btn btn-success">Login</button>
-                            <br><br>                    
-                        </form>  
+                            <br><br>
+                        </form>
                     </div>
                 </div>
-                
+
                 <br><br>
                 <div class='pMsgs'>
                     {% if messages %}
-                        <ul class="messages">    
-                            {% for message in messages %}    
-                                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
-                            {% endfor %}
-                        </ul>
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
                     {% endif %}
-                </div>                                
-            </div>   
-            <div class= "col" id="right">       
+                </div>
+            </div>
+            <div class="col" id="right">
                 <br>
                 <h4>Supporting Our Community</h4>
                 <br>
-                <p>As always, we’re proud to support our community. It starts with a healthy, safe environment when your child is away from home. <br>
-                    We provide a safe and engaging environment where your child can learn and develop to their full potential.
-                    We have weekly activities in our state-of-the-art facilities and art classes in our art studio. 
-                    Our reading nook cultivates a love of books and our movement areas instill healthy habits through yoga and dance.  
-                    Our rooftop playground provides lots of space for our GardenWorks curriculum, and a place to stay active and social.
-                    We are conveniently located in downtown Happyville near the Happyville Public Library and Fountain Square Park.
+                <p>As always, we’re proud to support our community. It starts with a healthy, safe environment when your
+                    child is away from home. <br>
+                    We provide a safe and engaging environment where your child can learn and develop to their full
+                    potential.
+                    We have weekly activities in our state-of-the-art facilities and art classes in our art studio.
+                    Our reading nook cultivates a love of books and our movement areas instill healthy habits through
+                    yoga and dance.
+                    Our rooftop playground provides lots of space for our GardenWorks curriculum, and a place to stay
+                    active and social.
+                    We are conveniently located in downtown Happyville near the Happyville Public Library and Fountain
+                    Square Park.
                 </p>
                 <br>
-                <p><strong>Not yet registered? </strong> <a href="/ABC/regForm"><button class="btn btn-primary">Register</button></a>  </p>
+                <p><strong>Not yet registered? </strong> <a href="/ABC/regForm"><button
+                            class="btn btn-primary">Register</button></a> </p>
             </div>
         </div>
     </div>
 </body>
 
 <script>
-    $('form.partlogin').submit(function(e){
+    $('form.partlogin').submit(function (e) {
         e.preventDefault()
         $.ajax({
             url: '/ABC/login',
             method: 'post',
             data: $(this).serialize(),
-            success: function(serverResponse){  
+            success: function (serverResponse) {
                 // alert("You will now be redirected.");
-                if(serverResponse.includes('Dashboard')) {
+                if (serverResponse.includes('Dashboard')) {
                     $('.container').html(serverResponse)
                 }
-                else{
+                else {
                     $('.pMsgs').html(serverResponse)
-                } 
+                }
             }
         })
-        $(this).trigger('reset')  
+        $(this).trigger('reset')
     })
-</script>  
+</script>
 
 </html>

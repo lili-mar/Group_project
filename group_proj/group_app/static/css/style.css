@@ -7,3 +7,31 @@ h1{
     color: rgb(136, 0, 106);
    
 }
+
+
+/* Myprofile Page */
+/* Developer : Jaehyun */
+
+.navbar {
+    display: flex;
+    justify-content: space-evenly;
+    margin:10px;
+}
+
+#my_profile h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+#enrolled_children h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+#enrolled_children a {
+    text-decoration: none;
+}
+
+.btn-block {
+    margin-top:50px;
+}
