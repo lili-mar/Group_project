@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">   
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>myEvents</title>
 </head>
+
 <body>
     <div class="container">
-                  
         <h1>Welcome, {{ user.first_name }}!</h1>
-        <a href="/ABC/dashboard">Dashboard</a>  |  <a href="/ABC/childForm">Add a Child</a>  
-        <a class="float-right" href="/ABC/logout">Log Out</a> 
+        <a href="/ABC/dashboard">Dashboard</a> | <a href="/ABC/childForm">Add a Child</a>
+        <a class="float-right" href="/ABC/logout">Log Out</a>
         <br><br><br>
         <p> This is myEvents page</p>
         <br>
         <p> Active joined events and Past attended events go here</p>
     </div>
 </body>
+
 </html>
