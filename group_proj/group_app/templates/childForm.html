@@ -18,69 +18,78 @@
         
         <!--<p> This is the page to add/register a new Child -AFTER successful validation</p>-->
         <!--<br>-->
-        <h3>Register A Child</h3>
-        <!--<p> It will display the form to add/register a new Child</p>-->
-        <br><br>
-    
-        <form action="/ABC/regChild" method="POST"> <!--path('regChild', views.regChild),-->
-            {% csrf_token %}
-            <div class='pMsgs'>
+    <div id="register_child">
+
+        <h1>ABC Child Care</h1>
+            <h3>Register A Child</h3>
+            <!--<p> It will display the form to add/register a new Child</p>-->
+            <br><br>
+        
+            <form id="form-button" action="/ABC/regChild" method="POST"> <!--path('regChild', views.regChild),-->
+                {% csrf_token %}
+                <div class='pMsgs'>
+                    
+                    
+                    {% if messages %}
+                        <ul class="messages">    
+                            {% for message in messages %}    
+                                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div><!--pMsgs-->
+
+                <label class="block" for="first_name">First Name:</label>
+                <input class="input" type="text" name="first_name">
+
+                <label class="block" for="last_name">Last Name:</label>
+                <input class="input" type="text" name="last_name">
+
+                <label class="block" for="birthdate">Birthdate:</label>
+                <input class="input" type="date" name="birth_date">
+
+                <label class="block" for="gender">Gender:</label>
+
+                <label for="gender">Female:</label>
+                <input class="gender" class="radio" type="radio" name="child_gender">
+
+                <label  for="gender">Male:</label>
+                <input class="gender" type="radio" name="child_gender">
+
+                <label class="block" for="grade">Grade:</label></strong>
+
+                <select class="input" class="block" name="child_grade">
+                    <option value="1"></option>
+                    <option value="1">Kindergarten</option>
+                    <option value="4">1</option>
+                    <option value="6">2</option>
+                    <option value="8">4</option>
+                    <option value="8">8</option>
+                </select>
+
+                <button class="btn btn-success" type="submit">Register A Child</button>
+
                 
-                
-                {% if messages %}
-                    <ul class="messages">    
-                        {% for message in messages %}    
-                            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </div>
 
-            <strong class="block"><label for="first_name">First Name:</label></strong>
-            <input type="text" name="first_name">
+            </form><!--End of Form-->
 
-            <strong class="block"><label for="last_name">Last Name:</label></strong>
-            <input type="text" name="last_name">
-
-            <strong class="block"><label for="birthdate">Birthdate:</label></strong>
-            <input type="date" name="birth_date">
-
-            <strong class="block"><label for="gender">Gender:</label></strong>
-            <label for="gender">Female</label>
-            <input type="radio" name="child_gender">
-
-            <label for="gender">Male</label>
-            <input type="radio" name="child_gender">
-
-            <strong class="block"><label for="grade">Grade:</label></strong>
-
-            <select class="block" name="child_grade">
-                <option value="1">Grade</option>
-                <option value="1">Kindergarten</option>
-                <option value="4">1</option>
-                <option value="6">2</option>
-                <option value="8">4</option>
-                <option value="8">8</option>
-            </select>
-
-            <button typd="submit">Register A Child</button>
-
+            <!--<p>this page can be called from myEvents and from myProfile pages when the Add a Child link is clicked</p>-->
             
+                
 
-        </form><!--End of Form-->
-
-        <!--<p>this page can be called from myEvents and from myProfile pages when the Add a Child link is clicked</p>-->
         
-        <br>
-        <hr>
-        <p></p>
-        <p>FOR NOW -the link will log you out because there is no form pointing anywhere -there is no CHILD model yet -but you get the point</p>
-        <a href="/ABC/myProfile"><strong>when the REGISTER a CHILD button is clicked  -it will show myProfile with the Enrolled Child(ren) updated</strong></a> 
-    
-        <br><br>
-        <br><br>
+            
+            <hr>
+            
+            <p>FOR NOW -the link will log you out because there is no form pointing anywhere -there is no CHILD model yet -but you get the point</p>
+            <a href="/ABC/myProfile"><strong>when the REGISTER a CHILD button is clicked  -it will show myProfile with the Enrolled Child(ren) updated</strong></a> 
+            
+            <br><br>
+            <br><br>
+    </div><!--My profile-->
+        
         
 
-    </div>
+    </div><!--Container-->
 </body>
 </html>
