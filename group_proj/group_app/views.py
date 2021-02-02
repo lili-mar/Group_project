@@ -1,57 +1,61 @@
 from django.shortcuts import render, HttpResponse, redirect
-from .models import *               #import ALL models
-from django.contrib import messages #validation
-import bcrypt                       #password encryption
-from django.conf import settings    #map settings
-from datetime import datetime       #events/activities date -time
+from .models import *  # import ALL models
+from django.contrib import messages  # validation
+import bcrypt  # password encryption
+from django.conf import settings  # map settings
+from datetime import datetime  # events/activities date -time
 
 
-def index(request): 
-    request.session.flush() 
+def index(request):
+    request.session.flush()
     return render(request, 'index.html')
+
 
 def login(request):
     if request.method == 'POST':
-        print(request.POST) #should see QueryDict
-        
+        print(request.POST)  # should see QueryDict
+
         errors = User.objects.login_validator(request.POST)
         print(errors)
-        if len(errors)>0:
+        if len(errors) > 0:
             for key, value in errors.items():
                 messages.error(request, value)
-           
-            return render(request, 'partialMsgs.html')  #AJAX!!!        
-            #return redirect('/ABC')    #redirect the user back to the form to fix the errors
+
+            return render(request, 'partialMsgs.html')  # AJAX!!!
+            # return redirect('/ABC')    #redirect the user back to the form to fix the errors
         else:
-            
-            this_user = User.objects.get(email = request.POST['email'])   
+
+            this_user = User.objects.get(email=request.POST['email'])
             request.session['user_id'] = this_user.id
-            #messages.success(request, "You have successfully logged in!")
+            # messages.success(request, "You have successfully logged in!")
             return redirect('/ABC/myEvents')
 
+
 def regForm(request):
-    #request.session.flush()
+    # request.session.flush()
     return render(request, 'regForm.html')
+
 
 def register(request):
     if request.method == 'POST':
-        print(request.POST) #should see QueryDict
-        
+        print(request.POST)  # should see QueryDict
+
         errors = User.objects.reg_validator(request.POST)
-        if len(errors)>0:
+        if len(errors) > 0:
             for key, value in errors.items():
                 messages.error(request, value)
-            return render(request, 'partialMsgs.html')  #AJAX!!!
-            #return redirect('/ABC/regForm')    #redirect the user back to the form to fix the errors
+            return render(request, 'partialMsgs.html')  # AJAX!!!
+            # return redirect('/ABC/regForm')    #redirect the user back to the form to fix the errors
         else:
-            hashed_pw = bcrypt.hashpw(request.POST['password'].encode(), bcrypt.gensalt()).decode()    
+            hashed_pw = bcrypt.hashpw(
+                request.POST['password'].encode(), bcrypt.gensalt()).decode()
             new_user = User.objects.create(
-                first_name = request.POST['first_name'],
-                last_name = request.POST['last_name'],
-                email = request.POST['email'],
-                password = hashed_pw)       
+                first_name=request.POST['first_name'],
+                last_name=request.POST['last_name'],
+                email=request.POST['email'],
+                password=hashed_pw)
             request.session['user_id'] = new_user.id
-            #messages.success(request, "You have successfully registered!")
+            # messages.success(request, "You have successfully registered!")
             return redirect('/ABC/dashboard')
 
 
@@ -60,41 +64,47 @@ def childForm(request):
         return redirect('/ABC')
     user = User.objects.get(id=request.session['user_id'])
     context = {
-        'user':user,
+        'user': user,
     }
     return render(request, 'childForm.html', context)
 
+
 def regChild(request):
-    #see "register" -here it needs the Child model
-    if request.method=="POST":
-        #class Child(models.Model):
-        #def child_validator(self, postData):
+    # see "register" -here it needs the Child model
+    if request.method == "POST":
+        # class Child(models.Model):
+        # def child_validator(self, postData):
         errors = Child.objects.child_validator(request.POST)
         if len(errors) > 0:
             for key, value in errors.items():
                 messages.error(request, value)
-            return redirect('/ABC/childForm')    #redirect the user back to the form to fix the errors
+            # redirect the user back to the form to fix the errors
+            return redirect('/ABC/childForm')
 
         else:
             user = User.objects.get(id=request.session['user_id'])
 
             Child.objects.create(
-                first_name = request.POST['first_name'],
-                last_name = request.POST['last_name'],
-                birth_date = request.POST['birth_date'],
-                gender = request.POST['child_gender'],
-                grade = request.POST['child_grade'],
-                parent_child = user,
+                first_name=request.POST['first_name'],
+                last_name=request.POST['last_name'],
+                birth_date=request.POST['birth_date'],
+                gender=request.POST['child_gender'],
+                grade=request.POST['child_grade'],
+                parent_child=user,
             )
-        
-    return redirect('/ABC/myProfile') #when successful Register a Child is click redirect back to myProfile
+
+    # when successful Register a Child is click redirect back to myProfile
+    return redirect('/ABC/myProfile')
+
 
 def myProfile(request):
     if 'user_id' not in request.session:
         return redirect('/ABC')
     user = User.objects.get(id=request.session['user_id'])
+    children = Child.objects.all()
     context = {
         'user': user,
+        'children': children,
     }
     return render(request, 'myProfile.html', context)
 
@@ -108,7 +118,20 @@ def update_myProfile(request):
         user.save()
         return redirect('/ABC/dashboard')
 
-def myEvents(request): 
+
+def remove_child_myProfile(request):
+    if 'user_id' not in request.session:
+        return redirect('/ABC')
+    else:
+        if request.method == "POST":
+            child = Child.objects.get(id=request.POST['child_id'])
+            child.delete()
+            return redirect('/ABC/myProfile')
+        else:
+            return redirect('/ABC')
+
+
+def myEvents(request):
     if 'user_id' not in request.session:
         return redirect('/ABC')
     user = User.objects.get(id=request.session['user_id'])
@@ -117,7 +140,8 @@ def myEvents(request):
     }
     return render(request, 'myEvents.html', context)
 
-def dashboard(request): 
+
+def dashboard(request):
     if 'user_id' not in request.session:
         return redirect('/ABC')
     user = User.objects.get(id=request.session['user_id'])
@@ -126,7 +150,8 @@ def dashboard(request):
     }
     return render(request, 'dashboard.html', context)
 
-def newJoin(request): 
+
+def newJoin(request):
     if 'user_id' not in request.session:
         return redirect('/ABC')
     user = User.objects.get(id=request.session['user_id'])
@@ -135,7 +160,8 @@ def newJoin(request):
     }
     return render(request, 'newJoin.html', context)
 
-def confirmJoin(request): 
+
+def confirmJoin(request):
     if 'user_id' not in request.session:
         return redirect('/ABC')
     user = User.objects.get(id=request.session['user_id'])
@@ -148,5 +174,3 @@ def confirmJoin(request):
 def logout(request):
     request.session.clear()
     return redirect('/ABC')
-
-

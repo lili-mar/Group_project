@@ -23,6 +23,8 @@ urlpatterns = [
     path('myProfile', views.myProfile),
     path('update_myProfile', views.update_myProfile,
          name='update_myProfile'),  # update myProfile
+    path('remove_child_myProfile', views.remove_child_myProfile,
+         name='remove_child_myProfile'),  # remove child from myProfile
     path('myEvents', views.myEvents),
     path('dashboard', views.dashboard),
     path('newJoin', views.newJoin),

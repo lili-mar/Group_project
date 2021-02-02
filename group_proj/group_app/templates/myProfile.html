@@ -14,7 +14,8 @@
 <body>
     <div class="container">
         <nav class="navbar">
-            <a href="">Home</a>
+            <!-- Need to update home Link later -->
+            <a href="#">Home</a>
             <a href="/ABC/dashboard">Dashboard</a>
             <a href="/ABC/myEvents">myEvents</a>
             <a class="float-right" href="/ABC/logout">Log Out</a>
@@ -70,19 +71,29 @@
                 <table class="table">
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col">#</th>
                             <th scope="col">Child Name</th>
+                            <th scope="col">Gender</th>
+                            <th scope="col">Grade</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
+                    {% for child in children %}
                     <tbody>
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Emma</td>
-                            <td><a href="#">Remove</a></td>
+                            <td>{{ child.first_name }}</td>
+                            <td>{{ child.gender }}</td>
+                            <td>{{ child.grade }}</td>
+                            <td>
+                                <form action="{% url 'remove_child_myProfile' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name='child_id' value='{{child.id}}'>
+                                    <button class="btn btn-danger" type="submit">Remove</button>
+                                </form>
+                            </td>
                         </tr>
                         </tr>
                     </tbody>
+                    {% endfor %}
                 </table>
                 <a href="childForm" class="btn btn-secondary btn-lg btn-block">+ Add a Child </a>
             </div>
