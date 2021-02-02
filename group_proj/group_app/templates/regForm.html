@@ -1,86 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Welcome to ABC ChildCare</title>
 </head>
-
 <body>
-
+    
     <div class="container">
         <h1 class="display-4 text-center">Welcome to ABC ChildCare!</h1>
 
-        <a class="float-right" href="/ABC/logout">Log Out</a>
-
-        <br><br>
-        <div class="card">
+        <a class="float-right" href="/ABC/logout">Back</a><!--Replaced the word Logout with Back-->        
+    
+        <br><br>  
+        <div class="card">                   
             <div class="card-body">
                 <h3 class="card-title">Register</h3>
-                <form class='partReg' action="/ABC/register" method="POST">
+                <form class='partReg'  action="/ABC/register" method="POST">
+                    {% csrf_token %}
                     <div class='pMsgs'>
                         {% if messages %}
-                        <ul class="messages">
-                            {% for message in messages %}
-                            <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-                            {% endfor %}
-                        </ul>
+                            <ul class="messages">    
+                                {% for message in messages %}    
+                                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+                                {% endfor %}
+                            </ul>
                         {% endif %}
-                    </div>
+                    </div><!--pMSGS-->
                     <br>
-                    {% csrf_token %}
+                    
                     <div class="form-group">
-                        <label for="first_name">First Name</label>
+                        <strong><label for="first_name">First Name:</label></strong>
                         <input type="text" name="first_name" id="first_name" class="form-control">
                     </div>
+
                     <div class="form-group">
-                        <label for="last_name">Last Name</label>
+                        <strong><label for="last_name">Last Name:</label></strong>
                         <input type="text" name="last_name" id="last_name" class="form-control">
                     </div>
+
                     <div class="form-group">
-                        <label for="email">Email</label>
+                        <strong><label for="email">Email:</label></strong>
                         <input type="email" name="email" id="email" class="form-control">
                     </div>
+
                     <div class="form-group">
-                        <label for="password">Password</label>
+                        <strong><label for="password">Password:</label></strong>
                         <input type="password" name="password" id="password" class="form-control">
                     </div>
+
                     <div class="form-group">
-                        <label for="confirm_pw">Confirm Password</label>
+                        <strong><label for="confirm_pw">Confirm Password:</label></strong>
                         <input type="password" name="confirm_pw" id="confirm_pw" class="form-control">
                     </div>
+                    
                     <button class="btn btn-primary">Register</button>
-                </form>
-            </div>
-        </div>
-    </div>
+                </form> 
+            </div> <!--End of Card-Body-->
+        </div>  <!--End of Card-->     
+    </div><!--End of Container-->
 </body>
 <script>
-    $('form.partReg').submit(function (e) {
+    $('form.partReg').submit(function(e){
         e.preventDefault()
         $.ajax({
             url: '/ABC/register',
             method: 'post',
             data: $(this).serialize(),
-            success: function (serverResponse) {
+            success: function(serverResponse){  
                 // alert("You will now be redirected.");
-                if (serverResponse.includes('myEvents'))  //Sharing comes from the today.html -kindda harcoding for now
+                if(serverResponse.includes('myEvents'))  //Sharing comes from the today.html -kindda harcoding for now
                 {
                     $('.container').html(serverResponse)
                 }
-                else {
+                else{
                     $('.pMsgs').html(serverResponse)
-                }
+                } 
             }
         })
-        $(this).trigger('reset')
+        $(this).trigger('reset')  
     })
-</script>
+</script>  
 
 </html>
