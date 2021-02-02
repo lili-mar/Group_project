@@ -27,7 +27,7 @@ def login(request):
 
             this_user = User.objects.get(email=request.POST['email'])
             request.session['user_id'] = this_user.id
-            #messages.success(request, "You have successfully logged in!")
+            # messages.success(request, "You have successfully logged in!")
             return redirect('/ABC/myEvents')
 
 
@@ -55,7 +55,7 @@ def register(request):
                 email=request.POST['email'],
                 password=hashed_pw)
             request.session['user_id'] = new_user.id
-            #messages.success(request, "You have successfully registered!")
+            # messages.success(request, "You have successfully registered!")
             return redirect('/ABC/dashboard')
 
 
@@ -101,8 +101,10 @@ def myProfile(request):
     if 'user_id' not in request.session:
         return redirect('/ABC')
     user = User.objects.get(id=request.session['user_id'])
+    children = Child.objects.all()
     context = {
         'user': user,
+        'children': children,
     }
     return render(request, 'myProfile.html', context)
 
@@ -115,6 +117,18 @@ def update_myProfile(request):
         user.password = hashed_pw
         user.save()
         return redirect('/ABC/dashboard')
+
+
+def remove_child_myProfile(request):
+    if 'user_id' not in request.session:
+        return redirect('/ABC')
+    else:
+        if request.method == "POST":
+            child = Child.objects.get(id=request.POST['child_id'])
+            child.delete()
+            return redirect('/ABC/myProfile')
+        else:
+            return redirect('/ABC')
 
 
 def myEvents(request):
