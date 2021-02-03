@@ -101,7 +101,7 @@ def myProfile(request):
     if 'user_id' not in request.session:
         return redirect('/ABC')
     user = User.objects.get(id=request.session['user_id'])
-    children = Child.objects.all()
+    children = user.enrolled_parent.all()
     context = {
         'user': user,
         'children': children,
@@ -155,8 +155,12 @@ def newJoin(request):
     if 'user_id' not in request.session:
         return redirect('/ABC')
     user = User.objects.get(id=request.session['user_id'])
+    children = Child.objects.all()
+    # events = Event.objects.get(id=request.POST['event_id'])
     context = {
         'user': user,
+        'children': children,
+        'events': events,
     }
     return render(request, 'newJoin.html', context)
 
