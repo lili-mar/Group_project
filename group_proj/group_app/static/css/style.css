@@ -23,9 +23,18 @@ h2{
     margin:10px;
 }
 
+#my_profile {
+    border: solid lightgray;
+    padding: 10px
+}
+
 #my_profile h1 {
     text-align: center;
     margin-bottom: 40px;
+}
+
+#enrolled_children {
+    border: solid lightgray;
 }
 
 #enrolled_children h1 {
@@ -40,6 +49,9 @@ h2{
 .btn-block {
     margin-top:50px;
 }
+
+#btn_password {
+    size:10px;
 
 /*Developer: Mridula*/
 /*Register A Child*/

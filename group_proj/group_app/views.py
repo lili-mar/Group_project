@@ -151,12 +151,12 @@ def dashboard(request):
     return render(request, 'dashboard.html', context)
 
 
-def newJoin(request):
+def newJoin(request, id):
     if 'user_id' not in request.session:
         return redirect('/ABC')
     user = User.objects.get(id=request.session['user_id'])
-    children = Child.objects.all()
-    # events = Event.objects.get(id=request.POST['event_id'])
+    children = user.enrolled_parent.all()
+    events = Event.objects.get(id=id)
     context = {
         'user': user,
         'children': children,
