@@ -62,6 +62,7 @@ def register(request):
 def childForm(request):
     if 'user_id' not in request.session:
         return redirect('/ABC')
+
     user = User.objects.get(id=request.session['user_id'])
     context = {
         'user': user,
@@ -72,6 +73,7 @@ def childForm(request):
 def regChild(request):
     # see "register" -here it needs the Child model
     if request.method == "POST":
+        
         # class Child(models.Model):
         # def child_validator(self, postData):
         errors = Child.objects.child_validator(request.POST)
@@ -83,15 +85,18 @@ def regChild(request):
 
         else:
             user = User.objects.get(id=request.session['user_id'])
+            
 
             Child.objects.create(
-                first_name=request.POST['first_name'],
-                last_name=request.POST['last_name'],
-                birth_date=request.POST['birth_date'],
-                gender=request.POST['child_gender'],
-                grade=request.POST['child_grade'],
-                parent_child=user,
+                first_name = request.POST['first_name'],
+                last_name = request.POST['last_name'],
+                birth_date = request.POST['birth_date'],
+                gender = request.POST['child_gender'],
+                age = request.POST['child_age'],
+                program = request.POST['child_program'],
+                parent_child = user,
             )
+
 
     # when successful Register a Child is click redirect back to myProfile
     return redirect('/ABC/myProfile')

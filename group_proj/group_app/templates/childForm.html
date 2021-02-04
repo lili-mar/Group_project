@@ -11,9 +11,9 @@
 <body>
     <div class="container">
         
-        <h1 id="header">Welcome, {{ user.first_name }}!</h1>
+        <h1>Welcome, {{ user.first_name }}!</h1>
+        <a class="float-right" href="/ABC/logout">Log Out</a>
         
-        <a class="float-right" id="header" href="/ABC/logout">Log Out</a> 
         <br><br><br><br>
         
         <!--<p> This is the page to add/register a new Child -AFTER successful validation</p>-->
@@ -40,45 +40,52 @@
                 </div><!--pMsgs-->
 
                 <label class="block" for="first_name">First Name:</label>
-                <input class="input" type="text" name="first_name">
+                <!--<input class="input" type="text" name="first_name">-->
+                <input class="form-control" type="text" name="first_name">
 
                 <label class="block" for="last_name">Last Name:</label>
-                <input class="input" type="text" name="last_name">
+                <input class="form-control" type="text" name="last_name">
 
                 <label class="block" for="birthdate">Birthdate:</label>
-                <input class="input" type="date" name="birth_date">
+                <input class="form-control" type="date" name="birth_date">
 
                 <label class="block" for="gender">Gender:</label>
-
-
                 
-                <select class="input" name="child_gender">
+                <select class="form-control" name="child_gender">
+                    <option value=""></option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                 </select>
 
-                <label class="block" for="grade">Grade:</label>
+                <label class="block" for="grade">Age:</label>
 
-                <select class="input" class="block" name="child_grade">
-                    <option value="0"></option>
-                    <option value="1">Kindergarten</option>
-                    <option value="2">2</option>
-                    <option value="4">4</option>
-                    <option value="6">6</option>
-                    <option value="8">8</option>
+                <select class="form-control" class="block" name="child_age">
+                    <option value=""></option>
+                    <option value="1">1-2 Ages</option>
+                    <option value="2">2-3 Ages</option>
+                    <option value="3">3-4 Ages</option>
+                    <option value="4">5-6 Ages</option>
+                
                 </select>
 
+                <label class="block" for="program">Child Program:</label>
+
+                <select class="form-control" name="child_program">
+                    <option value=""></option>
+                    <option value="Todler / Twos (1-2)">Todler / Twos (1-2)</option>
+                    <option value="Pre-K (3-4)">Pre-K (3-4)</option>
+                    <option value="Kindergarden (5-6)">Kindergarden (5-6)</option>
+                </select>
                 <button class="btn btn-success" type="submit">Register A Child</button>
 
                 
 
             </form><!--End of Form-->
 
-            <!--<p>this page can be called from myEvents and from myProfile pages when the Add a Child link is clicked</p>-->
-            
-                
-
         
+            <!--
+
+                
             
             <hr>
             
@@ -87,6 +94,7 @@
             
             <br><br>
             <br><br>
+            -->
     </div><!--My profile-->
         
         
