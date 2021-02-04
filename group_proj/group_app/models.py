@@ -99,24 +99,12 @@ class ChildManager(models.Manager):
         if len(postData['birth_date']) == 0:
             errors['birth_date'] = "Please fill out child's birth date"
 
-<<<<<<< HEAD
         if "child_gender" not in postData or len(postData['child_gender']) == 0:
             errors['child_gender'] = 'Please fill out the gender of your child'
 
         if len(postData['child_grade']) == 0:
             errors['child_grade'] = 'Please fill out the grade of the child'
 
-=======
-        if len(postData['child_gender']) == 0:
-            errors['child_gender'] = 'Please select the gender of your child'
-
-        if len(postData['child_age']) == 0:
-            errors['child_age'] = 'Please select the age of your child is in'
-
-        if len(postData['child_program']) == 0:
-            errors['child_program'] = 'Please select the program'
-        
->>>>>>> main
         return errors
 
 
@@ -126,7 +114,7 @@ class Child(models.Model):
     birth_date = models.DateTimeField()
     gender = models.CharField(max_length=10)
     age = models.IntegerField()
-    program = models.CharField(max_length = 20)
+    program = models.CharField(max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     # OneParentManyChildren and ManyChildren can belong to OneParent
