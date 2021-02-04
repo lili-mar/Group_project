@@ -87,11 +87,14 @@ class ChildManager(models.Manager):
         if len(postData['birth_date']) == 0:
             errors['birth_date'] = "Please fill out child's birth date"
 
-        if "child_gender" not in postData or len(postData['child_gender']) ==0:
-            errors['child_gender'] = 'Please fill out the gender of your child'
+        if len(postData['child_gender']) == 0:
+            errors['child_gender'] = 'Please select the gender of your child'
 
-        if len(postData['child_grade']) == 0:
-            errors['child_grade'] = 'Please fill out the grade of the child'
+        if len(postData['child_age']) == 0:
+            errors['child_age'] = 'Please select the age of your child is in'
+
+        if len(postData['child_program']) == 0:
+            errors['child_program'] = 'Please select the program'
         
         return errors
 
@@ -100,7 +103,8 @@ class Child(models.Model):
     last_name = models.CharField(max_length=50)
     birth_date = models.DateTimeField()
     gender = models.CharField(max_length=10)
-    grade = models.IntegerField()
+    age = models.IntegerField()
+    program = models.CharField(max_length = 20)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     parent_child = models.ForeignKey(User, related_name="enrolled_parent",on_delete=models.CASCADE)  #OneParentManyChildren and ManyChildren can belong to OneParent
