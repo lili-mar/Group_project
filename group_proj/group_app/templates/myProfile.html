@@ -15,15 +15,14 @@
     <div class="container">
         <nav class="navbar">
             <!-- Need to update home Link later -->
-            <a href="#">Home</a>
             <a href="/ABC/dashboard">Dashboard</a>
             <a href="/ABC/myEvents">myEvents</a>
             <a class="float-right" href="/ABC/logout">Log Out</a>
         </nav>
         <br>
         <br>
-        <section id="my_profile">
-            <div>
+        <section>
+            <div id="my_profile">
                 <h1>Your Profile - {{ user.first_name }}!</h1>
                 <div class='pMsgs'>
                     {% if messages %}
@@ -34,21 +33,24 @@
                     </ul>
                     {% endif %}
                 </div>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Member Since</th>
+                            <th scope="col">Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ user.full_name}}</td>
+                            <td>{{ user.get_date|date:"Y-m-d" }}</td>
+                            <td>{{ user.email}}</td>
+                        </tr>
+                    </tbody>
+                </table>
                 <form action="{% url 'update_myProfile' %}" method="POST">
                     {% csrf_token %}
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" name="name" class="form-control" value="{{ user.full_name }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="member_date">Member since:</label>
-                        <input type="date" name="member_since" class="form-control"
-                            value="{{ user.get_date|date:"Y-m-d" }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="text" name="email" class="form-control" value="{{ user.email }}">
-                    </div>
                     <div class="form-group">
                         <label for="password">Password:</label>
                         <input type="password" name="password" class="form-control">
@@ -57,7 +59,8 @@
                         <label for="confirm_pw">Confirm Password:</label>
                         <input type="password" name="confirm_pw" class="form-control">
                     </div>
-                    <button type="submit" class="btn btn-success">Update</button>
+                    <button type="submit" class="btn btn-success" id=btn_password>Change
+                        Password</button>
                 </form>
             </div>
 
@@ -65,15 +68,15 @@
 
         <br><br>
 
-        <section id="enrolled_children">
-            <div>
+        <section>
+            <div id="enrolled_children">
                 <h1>Enrolled Child(ren)</h1>
                 <table class="table">
-                    <thead class="thead-light">
+                    <thead class="thead-dark">
                         <tr>
                             <th scope="col">Child Name</th>
-                            <th scope="col">Gender</th>
-                            <th scope="col">Grade</th>
+                            <th scope="col">Age</th>
+                            <th scope="col">Program</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -81,8 +84,8 @@
                     <tbody>
                         <tr>
                             <td>{{ child.first_name }}</td>
-                            <td>{{ child.gender }}</td>
-                            <td>{{ child.grade }}</td>
+                            <td>{{ child.age }}</td>
+                            <td>{{ child.program }}</td>
                             <td>
                                 <form action="{% url 'remove_child_myProfile' %}" method="POST">
                                     {% csrf_token %}

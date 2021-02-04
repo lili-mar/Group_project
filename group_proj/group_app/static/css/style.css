@@ -6,12 +6,12 @@
 
 h1{
     color: rgb(136, 0, 106);
-   
+
 }
 
 h2{
     color:red; 
-   
+
 }
 
 
@@ -24,9 +24,18 @@ h2{
     margin:10px;
 }
 
+#my_profile {
+    border: solid lightgray;
+    padding: 10px
+}
+
 #my_profile h1 {
     text-align: center;
     margin-bottom: 40px;
+}
+
+#enrolled_children {
+    border: solid lightgray;
 }
 
 #enrolled_children h1 {

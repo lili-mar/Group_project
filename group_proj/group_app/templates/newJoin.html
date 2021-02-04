@@ -14,14 +14,15 @@
 <body>
     <div class="container">
         <nav class="navbar">
-            <a href="">Home</a>
+            <a href="/ABC/myEvents">myEvents</a>
             <a href="/ABC/dashboard">Dashboard</a>
             <a href="/ABC/myProfile">myProfile</a>
-            <a href="/ABC/myEvents">myEvents</a>
             <a class="float-right" href="/ABC/logout">Log Out</a>
         </nav>
         <br>
         <br>
+        <!-- Need view.py update -->
+        {% for event in events %}
         <section id="event_info">
             <div>
                 <h1>Please confirm selection - {{ user.first_name }}!</h1>
@@ -29,27 +30,28 @@
             <br>
             <br>
             <!-- Need Event id later -->
-            <h2>Picnic Event:</h2>
+            <h2>Picnic Event: {{ event.event_name }}</h2>
             <br>
-            <p>Date: 05/20/2021</p>
-            <p>Time: 12:00 PM</p>
-            <p>Location: <a href="#">Picnic Event</a></p>
+            <p>Date: {{ event.event_date }}</p>
+            <p>Time: {{ event.event_time }}</p>
+            <p>Location: <a href="#"> {{ event.location }}</a></p>
         </section>
+        {% endfor %}
         <br>
         <section id="child_info">
             <div>
                 <table class="table">
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col">#</th>
                             <th scope="col">Child Name</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
+                    <!-- Need view.py update -->
+                    {% for child in children %}
                     <tbody>
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Emma</td>
+                            <td>{{ child.first_name }}</td>
                             <td>
                                 <div>
                                     <select class="custom-select" id="join_option">
@@ -62,6 +64,7 @@
                         </tr>
                         </tr>
                     </tbody>
+                    {% endfor %}
                 </table>
                 <a href="dashboard" class="btn btn-secondary btn-lg btn-block">Confirm</a>
                 <br>
