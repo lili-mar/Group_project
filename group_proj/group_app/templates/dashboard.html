@@ -41,12 +41,16 @@
 
         <p> Search from our list of events:</p>
 
+        <div class="header">
+          <div id="nav"></div>
+        </div>
         <div class="input-group">
-            <input type="search" class="form-control rounded" placeholder="e.g)Virtual Painting" aria-label="Search"
-              aria-describedby="search-addon" />
-            <button type="button" class="btn btn-outline-primary">Search </button>
-          </div>
-        <br/>
+          <input type="search" class="form-control rounded" placeholder="Virtual Painting" aria-label="Search"
+            aria-describedby="search-addon" />
+          <button type="button" class="btn btn-outline-primary">search</button>
+        </div>
+        
+        <br><br><br>
 
         <div class="alert alert-danger">
             <class="display-5">Sorry, activity "Play Date" does not exist</class>
@@ -65,19 +69,58 @@
 			<th scope="col">Currently Enrolled</th>
 			<th scope="col">Action</th>
 		  </tr>
-		</thead>
-		<tbody>
-		  <tr>
-			<td>Sports</td>
-			<td>Green Park</td>
-			<td>03/10/21</td>
-			<td>10:00 AM</td>
-			<td>10</td>
-			<td>5</td>
-			<td>Join</td>
-		  </tr>
-		</tbody>
-	  </table>
+    </thead>
+    
+           {% for event in events %}
+                    <tbody>
+                        <tr>
+                            <td><a href="/event/{{event.id}}">{{event.event_name}}</a></td>
+                            <td><a href="/event/{{event.id}}">{{event.location}}</a></td>
+                            <td>{{ event.event_date }}</td>
+                            <td>{{ event.event_time }}</td>
+                            <td>{{ event.max_capacity }}</td>
+                            <td>{{ event.action_enrolled }}</td>
+                         
+                            <td>
+                              <form action="/ABC/newJoin" method="post">
+                                {% csrf_token %}
+                              <input class ="btn btn-sm btn-primary" type="submit" value="Join">
+                            </form>
+                            </td>
+                          
+                        </tr>
+                        </tr>
+                    </tbody>
+
+          {% endfor %}
+                </table>
+
+<!--           
+                <form action="/ABC/newJoin" method="post">
+                  {% csrf_token %}
+                  <input class ="btn btn-sm btn-primary" type="submit" value="Join">
+                </form> -->
+
+<!-- 
+
+                class Event(models.Model):
+                event_name = models.CharField(max_length=250)
+                location = models.CharField(max_length=250)
+                event_date= models.DateField ()
+                event_time= models.TimeField()
+                max_capacity= models.IntegerField()
+                action_enrolled=models.CharField(max_length=10)
+                action_class_full=models.CharField(max_length=10)
+                street_address = models.CharField(max_length=255)
+                city = models.CharField(max_length=60)
+                state = models.CharField(max_length=2)
+                zip_code= models.CharField(max_length=5)
+                child_event= models.ManyToManyField(Child, related_name='enrolled_child')
+                user_event=models.ManyToManyField(User, related_name='enrolled_user')  -->
+
+
+                <!-- <a href="childForm" class="btn btn-secondary btn-lg btn-block">+ Add a Child </a> -->
+
 
 <br/><br/>
 

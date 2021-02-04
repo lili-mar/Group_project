@@ -105,6 +105,10 @@ class Child(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     parent_child = models.ForeignKey(User, related_name="enrolled_parent",on_delete=models.CASCADE)  #OneParentManyChildren and ManyChildren can belong to OneParent
     objects = ChildManager()
+    def __str__(self):
+        return self.first_name
+
+  
 
 class Event(models.Model):
     event_name = models.CharField(max_length=250)
@@ -112,14 +116,18 @@ class Event(models.Model):
     event_date= models.DateField ()
     event_time= models.TimeField()
     max_capacity= models.IntegerField()
-    action_enrolled=models.CharField(max_length=10)
-    action_class_full=models.CharField(max_length=10)
+    action_enrolled=models.BooleanField(default=False)
+    action_class_full=models.BooleanField(default=False)
     street_address = models.CharField(max_length=255)
     city = models.CharField(max_length=60)
     state = models.CharField(max_length=2)
     zip_code= models.CharField(max_length=5)
     child_event= models.ManyToManyField(Child, related_name='enrolled_child')
     user_event=models.ManyToManyField(User, related_name='enrolled_user') 
+    def __str__(self):
+        return self.event_name
+
+    
 #---end of adding new models
 
 

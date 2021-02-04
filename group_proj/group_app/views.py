@@ -12,19 +12,22 @@ def index(request):
 
 
 def login(request):
+    print("test1")
     if request.method == 'POST':
+        print("test2")
         print(request.POST)  # should see QueryDict
 
         errors = User.objects.login_validator(request.POST)
         print(errors)
         if len(errors) > 0:
+            print("test3")
             for key, value in errors.items():
                 messages.error(request, value)
 
             return render(request, 'partialMsgs.html')  # AJAX!!!
             # return redirect('/ABC')    #redirect the user back to the form to fix the errors
         else:
-
+            print("test4")
             this_user = User.objects.get(email=request.POST['email'])
             request.session['user_id'] = this_user.id
             # messages.success(request, "You have successfully logged in!")
@@ -131,12 +134,29 @@ def remove_child_myProfile(request):
             return redirect('/ABC')
 
 
+def remove_event_myEvents(request):
+    # if 'event_id' not in request.session:
+    #     return redirect('/ABC/myEvents')
+    # else:
+    if request.method == "POST":
+        event= Event.objects.get(id=request.POST['event_id'])
+        event.delete()
+        return redirect('/ABC/myEvents')
+    else:
+        return redirect('/ABC')
+
+
+
 def myEvents(request):
     if 'user_id' not in request.session:
         return redirect('/ABC')
     user = User.objects.get(id=request.session['user_id'])
+    past_events=Event.objects.filter(event_date__lte = datetime.today())
+    future_events=Event.objects.filter(event_date__gte = datetime.today())
     context = {
         'user': user,
+        'past_events': past_events,
+        'future_events':future_events,
     }
     return render(request, 'myEvents.html', context)
 
@@ -145,8 +165,11 @@ def dashboard(request):
     if 'user_id' not in request.session:
         return redirect('/ABC')
     user = User.objects.get(id=request.session['user_id'])
+    events = Event.objects.all()
+
     context = {
         'user': user,
+        'events': events,
     }
     return render(request, 'dashboard.html', context)
 
