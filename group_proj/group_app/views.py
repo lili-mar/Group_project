@@ -111,12 +111,18 @@ def myProfile(request):
 
 def update_myProfile(request):
     if request.method == "POST":
-        hashed_pw = bcrypt.hashpw(
-            request.POST['password'].encode(), bcrypt.gensalt()).decode()
-        user = User.objects.get(id=request.session['user_id'])
-        user.password = hashed_pw
-        user.save()
-        return redirect('/ABC/dashboard')
+        errors = User.objects.password_validator(request.POST)
+        if len(errors) > 0:
+            for key, value in errors.items():
+                messages.error(request, value)
+            return redirect('/ABC/myProfile')
+        else:
+            hashed_pw = bcrypt.hashpw(
+                request.POST['password'].encode(), bcrypt.gensalt()).decode()
+            user = User.objects.get(id=request.session['user_id'])
+            user.password = hashed_pw
+            user.save()
+            return redirect('/ABC/dashboard')
 
 
 def remove_child_myProfile(request):

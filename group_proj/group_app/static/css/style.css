@@ -5,12 +5,12 @@
 
 h1{
     color: rgb(136, 0, 106);
-   
+
 }
 
 h2{
     color:red; 
-   
+
 }
 
 
@@ -49,9 +49,6 @@ h2{
 .btn-block {
     margin-top:50px;
 }
-
-#btn_password {
-    size:10px;
 
 /*Developer: Mridula*/
 /*Register A Child*/
