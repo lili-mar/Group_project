@@ -1,6 +1,7 @@
 *{
     margin:0;
     padding:0;
+    /*border:dotted 1px red;*/
 }
 
 h1{
@@ -53,40 +54,30 @@ h2{
 /*Developer: Mridula*/
 /*Register A Child*/
 
-
+/*
 #header{
     display:inline-block;
     vertical-align: middle;
-    margin-top:29px;
+    margin-top:10px;
+}
+*/
 
+.container{
+    margin-top:10px;
 }
 
 .block{
     display:block;
 }
 
-.input{
-    margin-bottom: 8px;
-    width:100%;
-    padding:.375rem .75rem;
-    border:1px solid #ced4da;
-    color:#495057;
-    height:calc(1.5em + .75rem + 2px);
-    font-size:1rem;
-    border-radius: .25rem;
-    background-clip:padding-box;
-}
 
 #form-button button{
-    margin-top:8px;
+    margin-top:10px;
+    
 }
 
 #form-button{
     margin-top:-19px;
-}
-
-.radio{
-    border:1px solid #ced4da;
 }
 
 #register_child h3{
@@ -103,17 +94,15 @@ h2{
     margin-bottom: 8px;
 }
 
-.gender{
-    margin-left:5px;
-    margin-right:4px;
-}
 
 #right #register{
     margin-left:8px;
 }
 
 #right{
-    margin-top:-56px;
+    margin-top:-28px;
+    margin-left:0;
+    padding:0;
 }
 
 .pMsgs{
@@ -134,3 +123,4 @@ h2{
 .text-center{
     margin-top:8px;
 }
+
