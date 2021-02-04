@@ -11,21 +11,19 @@
 <body>
     <div class="container">
         
-        <h1>Welcome, {{ user.first_name }}!</h1>
-        <a class="float-right" href="/ABC/logout">Log Out</a>
+        <h1 id="header">Welcome, {{ user.first_name }}!</h1>
+        <a id="header" class="float-right" href="/ABC/logout">Log Out</a>
         
         <br><br><br><br>
         
-        <!--<p> This is the page to add/register a new Child -AFTER successful validation</p>-->
-        <!--<br>-->
     <div id="register_child">
 
         <h1>ABC Child Care</h1>
             <h3>Register A Child</h3>
-            <!--<p> It will display the form to add/register a new Child</p>-->
+            
             <br><br>
         
-            <form id="form-button" action="/ABC/regChild" method="POST"> <!--path('regChild', views.regChild),-->
+            <form id="form-button" action="/ABC/regChild" method="POST"> 
                 {% csrf_token %}
                 <div class='pMsgs'>
                     
@@ -40,7 +38,6 @@
                 </div><!--pMsgs-->
 
                 <label class="block" for="first_name">First Name:</label>
-                <!--<input class="input" type="text" name="first_name">-->
                 <input class="form-control" type="text" name="first_name">
 
                 <label class="block" for="last_name">Last Name:</label>
@@ -83,19 +80,8 @@
             </form><!--End of Form-->
 
         
-            <!--
-
-                
-            
-            <hr>
-            
-            <p>FOR NOW -the link will log you out because there is no form pointing anywhere -there is no CHILD model yet -but you get the point</p>
-            <a href="/ABC/myProfile"><strong>when the REGISTER a CHILD button is clicked  -it will show myProfile with the Enrolled Child(ren) updated</strong></a> 
-            
-            <br><br>
-            <br><br>
-            -->
-    </div><!--My profile-->
+    
+    </div><!--Register A Child-->
         
         
 
