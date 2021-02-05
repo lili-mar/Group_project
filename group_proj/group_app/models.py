@@ -99,11 +99,11 @@ class ChildManager(models.Manager):
         if len(postData['birth_date']) == 0:
             errors['birth_date'] = "Please fill out child's birth date"
 
-        if "child_gender" not in postData or len(postData['child_gender']) == 0:
-            errors['child_gender'] = 'Please fill out the gender of your child'
+        if len(postData['child_age']) == 0:
+            errors['child_age'] = "Please select the age of your child is in"
 
-        if len(postData['child_grade']) == 0:
-            errors['child_grade'] = 'Please fill out the grade of the child'
+        if len(postData['child_program']) == 0:
+            errors['child_program'] = "Please select a program for your child is in"
 
         return errors
 
@@ -121,7 +121,8 @@ class Child(models.Model):
     parent_child = models.ForeignKey(
         User, related_name="enrolled_parent", on_delete=models.CASCADE)
     objects = ChildManager()
-
+    def __str__(self):
+            return self.first_name
 
 class Event(models.Model):
     event_name = models.CharField(max_length=250)
@@ -129,8 +130,8 @@ class Event(models.Model):
     event_date = models.DateField()
     event_time = models.TimeField()
     max_capacity = models.IntegerField()
-    action_enrolled = models.CharField(max_length=10)
-    action_class_full = models.CharField(max_length=10)
+    current_enrolled = models.IntegerField(default=0)
+    action_class_full = models.BooleanField(default=False)
     street_address = models.CharField(max_length=255)
     city = models.CharField(max_length=60)
     state = models.CharField(max_length=2)
@@ -138,7 +139,8 @@ class Event(models.Model):
     child_event = models.ManyToManyField(Child, related_name='enrolled_child')
     user_event = models.ManyToManyField(User, related_name='enrolled_user')
 # ---end of adding new models
-
+    def __str__(self):
+            return self.event_name
 
 class Message(models.Model):
     msg_content = models.CharField(max_length=255)

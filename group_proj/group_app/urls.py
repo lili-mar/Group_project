@@ -21,10 +21,16 @@ urlpatterns = [
     path('regChild', views.regChild),  # validate registration for a Child
 
     path('myProfile', views.myProfile),
+    
     path('update_myProfile', views.update_myProfile,
          name='update_myProfile'),  # update myProfile
+
     path('remove_child_myProfile', views.remove_child_myProfile,
          name='remove_child_myProfile'),  # remove child from myProfile
+
+    path('remove_event_myEvents', views.remove_event_myEvents,
+         name='remove_event_myEvents'),  # remove event from myEvents 
+    
     path('myEvents', views.myEvents),
     path('dashboard', views.dashboard),
     path('event/<int:id>/newJoin', views.newJoin),
