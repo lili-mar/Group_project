@@ -17,7 +17,7 @@ urlpatterns = [
     path('regChild', views.regChild),  # validate registration for a Child
 
     path('myProfile', views.myProfile),
-    
+
     path('update_myProfile', views.update_myProfile,
          name='update_myProfile'),  # update myProfile
 
@@ -25,20 +25,21 @@ urlpatterns = [
          name='remove_child_myProfile'),  # remove child from myProfile
 
 
- # ---------Here we are.  We still need the below pages to work------------------------------------------
-  
+    # ---------Here we are.  We still need the below pages to work------------------------------------------
+
     path('remove_event_myEvents', views.remove_event_myEvents,
-         name='remove_event_myEvents'),  # remove event from myEvents 
-    
+         name='remove_event_myEvents'),  # remove event from myEvents
+
     path('myEvents', views.myEvents),
     path('dashboard', views.dashboard),
-    path('event/<int:id>/newJoin', views.newJoin),
-    
-    
-   
-     #path('confirmJoin', views.confirmJoin),
-    path('<int:event_id>/confirmJoin', views.confirmJoin),  #localhost:8000/ABC/<event_id/confirmJoin>
-    path('<int:event_id>/createMessage', views.create_msg), 
+    path('event/<int:event_id>/newJoin', views.newJoin),
+
+
+
+    #path('confirmJoin', views.confirmJoin),
+    # localhost:8000/ABC/<event_id/confirmJoin>
+    path('<int:event_id>/confirmJoin', views.confirmJoin),
+    path('<int:event_id>/createMessage', views.create_msg),
     path('createComment/<int:msg_id>', views.create_comment),
     path('delete/<int:comm_id>', views.delete_comment),
     path('like/<int:msg_id>', views.add_like),
