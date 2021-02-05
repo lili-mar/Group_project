@@ -5,7 +5,6 @@ urlpatterns = [
 
     # REMEMBER to call it as http://localhost:8000/ABC/
 
-    #path('', views.maptest),
     path('', views.index),  # display login
     path('login', views.login),  # process/validate login
 
@@ -13,9 +12,6 @@ urlpatterns = [
     path('register', views.register),  # validate registration
 
     path('logout', views.logout),
-
-    # ---------from here down -we need to work on the programming/development.  We also need to finish the models.py---------------
-    # I think there should be an Event model and a Child model -but we can discuss
 
     path('childForm', views.childForm),  # display childForm
     path('regChild', views.regChild),  # validate registration for a Child
@@ -28,13 +24,25 @@ urlpatterns = [
     path('remove_child_myProfile', views.remove_child_myProfile,
          name='remove_child_myProfile'),  # remove child from myProfile
 
+
+ # ---------Here we are.  We still need the below pages to work------------------------------------------
+  
     path('remove_event_myEvents', views.remove_event_myEvents,
          name='remove_event_myEvents'),  # remove event from myEvents 
     
     path('myEvents', views.myEvents),
     path('dashboard', views.dashboard),
     path('event/<int:id>/newJoin', views.newJoin),
-    path('confirmJoin', views.confirmJoin),
+    
+    
+   
+     #path('confirmJoin', views.confirmJoin),
+    path('<int:event_id>/confirmJoin', views.confirmJoin),  #localhost:8000/ABC/<event_id/confirmJoin>
+    path('<int:event_id>/createMessage', views.create_msg), 
+    path('createComment/<int:msg_id>', views.create_comment),
+    path('delete/<int:comm_id>', views.delete_comment),
+    path('like/<int:msg_id>', views.add_like),
+    path('unlike/<int:msg_id>', views.remove_like),
 
 
 ]

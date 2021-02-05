@@ -81,15 +81,10 @@ class User(models.Model):
 
 # -------------------end of USER ---------------------------------------------------------
 
-# ----add your new models here----
-
-
 class ChildManager(models.Manager):
     def child_validator(self, postData):
 
         errors = {}
-        # print(postData)
-
         if len(postData['first_name']) < 2:
             errors['first_name'] = 'First Name must be at least 2 characters'
 
@@ -123,6 +118,8 @@ class Child(models.Model):
     objects = ChildManager()
     def __str__(self):
             return self.first_name
+        
+    # -------------------end of CHILD ---------------------------------------------------------
 
 class Event(models.Model):
     event_name = models.CharField(max_length=250)
@@ -138,25 +135,39 @@ class Event(models.Model):
     zip_code = models.CharField(max_length=5)
     child_event = models.ManyToManyField(Child, related_name='enrolled_child')
     user_event = models.ManyToManyField(User, related_name='enrolled_user')
-# ---end of adding new models
     def __str__(self):
             return self.event_name
+        
+# -------------------end of EVENT ---------------------------------------------------------
+class MessageManager(models.Manager):
+    def msg_validator(self,postData):
+        errors = {}
+        if len(postData['msg_content']) != 0: 
+            if len(postData['msg_content']) < 5:
+                errors['msg_content'] = "Message must be at least 5 characters"
+        return errors   
 
+class CommentManager(models.Manager):
+    def comm_validator(self,postData):
+        errors = {}
+        if len(postData['com_content']) != 0: 
+            if len(postData['com_content']) < 5:
+                errors['com_content'] = "Comment must be at least 5 characters"
+        return errors   
+    
 class Message(models.Model):
     msg_content = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    msg_UsrJoin = models.ForeignKey(
-        User, related_name="usermessages_join", on_delete=models.CASCADE)  # OneUserManyMessages
-    # ManyUsersLikeManyMessages and ManyMessagesAreLikedbyManyUsers
-    user_likes = models.ManyToManyField(User, related_name='liked_posts')
-
+    msg_UsrJoin = models.ForeignKey(User, related_name="usermessages_join", on_delete=models.CASCADE)  # OneUserManyMessages
+    user_likes = models.ManyToManyField(User, related_name='liked_posts')  # ManyUsersLikeManyMessages and ManyMessagesAreLikedbyManyUsers
+    msg_EventJoin = models.ForeignKey(Event, related_name="eventmessages_join",on_delete=models.CASCADE)    #OneEventManyMessages
+    objects = MessageManager()
 
 class Comment(models.Model):
     com_content = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    com_UserJoin = models.ForeignKey(
-        User, related_name="usercomments_join", on_delete=models.CASCADE)  # OneUserManyComments
-    msg_CommJoin = models.ForeignKey(
-        Message, related_name="msgcomments_join", on_delete=models.CASCADE)  # OneMsgManyComments
+    com_UserJoin = models.ForeignKey(User, related_name="usercomments_join", on_delete=models.CASCADE)  # OneUserManyComments
+    msg_CommJoin = models.ForeignKey(Message, related_name="msgcomments_join", on_delete=models.CASCADE)  # OneMsgManyComments
+    objects = CommentManager()

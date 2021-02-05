@@ -124,3 +124,23 @@ h2{
     margin-top:8px;
 }
 
+/* lily -start---- */
+#map {
+    height: 250px;
+    width: 100%;  /* The width is the width of the web page */
+    text-emphasis-color:bold;
+}
+
+h4{
+    color:orangered;   
+}
+
+h5{
+    color:orangered; 
+}
+
+#temp-right{
+    display:inline-block;
+    vertical-align: top;
+}
+/* lily -end---- */
