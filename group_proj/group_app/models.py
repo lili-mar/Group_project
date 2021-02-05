@@ -116,7 +116,7 @@ class Event(models.Model):
     event_date= models.DateField ()
     event_time= models.TimeField()
     max_capacity= models.IntegerField()
-    action_enrolled=models.BooleanField(default=False)
+    current_enrolled=models.IntegerField(default=0)
     action_class_full=models.BooleanField(default=False)
     street_address = models.CharField(max_length=255)
     city = models.CharField(max_length=60)
@@ -127,9 +127,7 @@ class Event(models.Model):
     def __str__(self):
         return self.event_name
 
-    
 #---end of adding new models
-
 
 class Message(models.Model):    
     msg_content = models.CharField(max_length=255)

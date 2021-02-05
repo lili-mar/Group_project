@@ -166,10 +166,12 @@ def dashboard(request):
         return redirect('/ABC')
     user = User.objects.get(id=request.session['user_id'])
     events = Event.objects.all()
+    # total_num= Event.object.get(id=request.session['user_event'])
 
     context = {
         'user': user,
         'events': events,
+        # 'total_num': total_num,
     }
     return render(request, 'dashboard.html', context)
 
@@ -192,6 +194,11 @@ def confirmJoin(request):
         'user': user,
     }
     return render(request, 'confirmJoin.html', context)
+
+def Add_Child(request):
+    if 'user_id' not in request.session:
+        return redirect('/ABC')
+    current_enroll=User.objects.get(all)
 
 
 def logout(request):

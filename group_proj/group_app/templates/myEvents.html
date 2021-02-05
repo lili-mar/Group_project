@@ -52,7 +52,7 @@
               <tr>
                 <td><a href="/event/{{event.id}}">{{event.event_name}}</a></td>
                 <td><a href="/event/{{event.id}}">{{event.location}}</a></td>
-                <td>{{ event.child_event}}</td>
+                <td>{{ event.enrolled_child}}</td>
                 <td>{{ event.event_date }}</td>
                 <td>{{ event.event_time }}</td>
                 <!-- <td><form action="/ABC/newJoin" method="post">
@@ -61,6 +61,7 @@
                 </form></td> -->
 
                 <td>
+                
                   <form action="{% url 'remove_event_myEvents' %}" method="post">
                   {% csrf_token %}
                   <input type="hidden" name='event_id' value='{{event.id}}'>
@@ -72,13 +73,6 @@
             </tbody>
           </table>
             
-          <!-- <td>
-            <form action="{% url 'remove_child_myProfile' %}" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name='child_id' value='{{child.id}}'>
-                <button class="btn btn-danger" type="submit">Remove</button>
-            </form>
-        </td> -->
 
             
             <h1> Past attended events </h1>
@@ -99,7 +93,7 @@
               <tr>
                 <td><a href="/event/{{event.id}}">{{event.event_name}}</a></td>
                 <td><a href="/event/{{event.id}}">{{event.location}}</a></td>
-                <td>{{ event.child_event}}</td>
+                <td>{{ event.enrolled_child}}</td>
                 <td>{{ event.event_date }}</td>
                 <td>{{ event.event_time }}</td>
                 
