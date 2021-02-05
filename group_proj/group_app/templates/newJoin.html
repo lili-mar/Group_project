@@ -66,7 +66,11 @@
                     </tbody>
                     {% endfor %}
                 </table>
-                <a href="dashboard" class="btn btn-secondary btn-lg btn-block">Confirm</a>
+                <form action="/dashboard" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name='child_id' value='{{child.id}}'>
+                    <button class="btn btn-secondary btn-lg btn-block" type="submit">Confirm</button>
+                </form>
                 <br>
                 <br>
             </div>
