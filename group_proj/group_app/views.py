@@ -181,18 +181,38 @@ def dashboard(request):
     return render(request, 'dashboard.html', context)
 
 
-def newJoin(request, event_id):
+def viewJoin(request, event_id):
     if 'user_id' not in request.session:
         return redirect('/ABC')
     user = User.objects.get(id=request.session['user_id'])
     children = user.enrolled_parent.all()
-    event = Event.objects.filter(id=event_id)
+    event = Event.objects.get(id=event_id)
     context = {
         'user': user,
         'children': children,
-        'event': event,
+        'user_event': event,
     }
     return render(request, 'newJoin.html', context)
+
+
+def requestJoin(request, event_id):
+    if 'user_id' not in request.session:
+        return redirect('/ABC')
+    else:
+        if request.method == "POST":
+            user = User.objects.get(id=request.session['user_id'])
+            children = user.enrolled_parent.all()
+            event = Event.objects.get(id=event_id)
+            enrolled_child = children.get(id=request.POST['child_id'])
+            selector = request.POST['dropdown']
+            if selector['value'] == 'yes':
+                event.enrolled_child.add(enrolled_child)
+                event.save()
+            else:
+                event.save()
+        else:
+            return redirect('/event/<int:event_id>/newJoin')
+    return redirect('/<int:event_id>/confirmation')
 
 
 # ----Lily's work in progress ---------------------------------------

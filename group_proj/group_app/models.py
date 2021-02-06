@@ -118,8 +118,12 @@ class Child(models.Model):
         User, related_name="enrolled_parent", on_delete=models.CASCADE)
     objects = ChildManager()
 
+    @ property
     def __str__(self):
         return self.first_name
+
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"
 
     # -------------------end of CHILD ---------------------------------------------------------
 
@@ -139,8 +143,12 @@ class Event(models.Model):
     child_event = models.ManyToManyField(Child, related_name='enrolled_child')
     user_event = models.ManyToManyField(User, related_name='enrolled_user')
 
+    @ property
     def __str__(self):
         return self.event_name
+
+    def full_address(self):
+        return f"{self.street_address}, {self.city}, {self.zip_code}"
 
 # -------------------end of EVENT ---------------------------------------------------------
 
