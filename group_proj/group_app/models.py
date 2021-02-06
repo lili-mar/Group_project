@@ -156,21 +156,34 @@ class Event(models.Model):
 class MessageManager(models.Manager):
     def msg_validator(self, postData):
         errors = {}
+<<<<<<< HEAD
         if len(postData['msg_content']) != 0:
             if len(postData['msg_content']) < 5:
                 errors['msg_content'] = "Message must be at least 5 characters"
         return errors
 
+=======
+        if 0 <= len(postData['msg_content']) < 5:
+            errors['msg_content'] = "Message must be at least 5 characters"
+        return errors   
+>>>>>>> main
 
 class CommentManager(models.Manager):
     def comm_validator(self, postData):
         errors = {}
+<<<<<<< HEAD
         if len(postData['com_content']) != 0:
             if len(postData['com_content']) < 5:
                 errors['com_content'] = "Comment must be at least 5 characters"
         return errors
 
 
+=======
+        if 0 <= len(postData['com_content']) < 5:
+            errors['com_content'] = "Comment must be at least 5 characters"
+        return errors   
+    
+>>>>>>> main
 class Message(models.Model):
     msg_content = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)

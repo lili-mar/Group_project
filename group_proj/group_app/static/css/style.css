@@ -47,16 +47,25 @@ h2{
     text-decoration: none;
 }
 
+<<<<<<< HEAD
 /*Developer: Mridula*/
 /*Register A Child*/
+=======
+.btn-block {
+    margin-top:50px;
+}
 
-/*
+/*Mridula  Start*/
+
+
+>>>>>>> main
+
 #header{
     display:inline-block;
     vertical-align: middle;
     margin-top:10px;
 }
-*/
+
 
 .container{
     margin-top:10px;
@@ -64,12 +73,26 @@ h2{
 
 .block{
     display:block;
+    margin-top:4px;
+    margin-bottom:8px;
 }
 
 
 #form-button button{
-    margin-top:10px;
-    
+    margin-top:1rem;
+    width:100%;
+    /*background:purple;*/
+    background:yellow;
+    color:black;
+    border:none;
+}
+
+#header-message{
+    color:purple;
+}
+
+#background-message{
+    background:orange;
 }
 
 #form-button{
@@ -93,12 +116,13 @@ h2{
 
 #right #register{
     margin-left:8px;
+    background-color: rgb(81, 81, 228);
+    border:none;
 }
 
 #right{
     margin-top:-28px;
-    margin-left:0;
-    padding:0;
+    text-align: center;
 }
 
 .pMsgs{
@@ -120,6 +144,35 @@ h2{
     margin-top:8px;
 }
 
+.partlogin button{
+    
+    width:100%;
+    background-color:yellow;
+    color:black;
+    border-color:yellow;
+}
+
+.partlogin button hover{
+    background-color:orange;
+    color:white;
+}
+
+.partReg button{
+    
+    width:100%;
+    background-color:  yellow;
+    border-color:yellow;
+    color:black;
+}
+
+h3{
+    color:orange;
+}
+
+
+
+/*Mridula - End*/
+
 /* lily -start---- */
 #map {
     height: 250px;
@@ -134,9 +187,24 @@ h4{
 h5{
     color:orangered; 
 }
-
+h6{
+    color:green; 
+}
 #temp-right{
     display:inline-block;
     vertical-align: top;
 }
+
+.poster {
+    font-size: 11pt;
+    text-align: left;
+    font-family: sans-serif;
+    
+}
+.post{
+    font-size: 14pt;
+    text-align: left;
+    
+}
+
 /* lily -end---- */
