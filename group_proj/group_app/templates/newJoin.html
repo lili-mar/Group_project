@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>New Join Event </title>
@@ -22,56 +28,69 @@
         <br>
         <br>
         <!-- Need view.py update -->
-        {% for event in events %}
         <section id="event_info">
             <div>
                 <h1>Please confirm selection - {{ user.first_name }}!</h1>
             </div>
             <br>
             <br>
-            <!-- Need Event id later -->
-            <h2>Picnic Event: {{ event.event_name }}</h2>
+            <h2>Event: {{ user_event.event_name }}</h2>
             <br>
-            <p>Date: {{ event.event_date }}</p>
-            <p>Time: {{ event.event_time }}</p>
-            <p>Location: <a href="#"> {{ event.location }}</a></p>
+            <p>Date: {{ user_event.event_date }}</p>
+            <p>Time: {{ user_event.event_time }}</p>
+            <p>Location: {{ user_event.location }}</a></p>
+            <p>Address: {{ user_event.full_address }}</p>
         </section>
-        {% endfor %}
         <br>
         <section id="child_info">
+            
             <div>
-                <table class="table">
-                    <thead class="thead-light">
-                        <tr>
-                            <th scope="col">Child Name</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <!-- Need view.py update -->
+                <form action="/ABC/{{user_event.id}}/confirmJoin" method="POST">
+                    {% csrf_token %}
                     {% for child in children %}
-                    <tbody>
-                        <tr>
-                            <td>{{ child.first_name }}</td>
-                            <td>
-                                <div>
-                                    <select class="custom-select" id="join_option">
-                                        <option selected>Choose...</option>
-                                        <option value="yes">Yes</option>
-                                        <option value="no">No</option>
-                                    </select>
-                                </div>
-                            </td>
-                        </tr>
-                        </tr>
-                    </tbody>
+                    <div class="form-group">
+                        <label for="name">Child Name:</label>
+                        <input type="text" class="form-control" value="{{child.full_name}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="join">Join?</label>
+                        <select class="custom-select" id="selector" name="dropdown">
+                            <option value="none">--SELECT--</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
                     {% endfor %}
-                </table>
-                <a href="dashboard" class="btn btn-secondary btn-lg btn-block">Confirm</a>
-                <br>
-                <br>
+                    <div class="form-group">
+                        <input type="hidden" name='child_id' value='{{child.id}}'>
+                        <button class="btn btn-secondary btn-lg btn-block" type="submit" id="btn">Confirm</button>
+                    </div>
+                </form>
             </div>
+            
+            <br>
+            <br>
         </section>
     </div>
+    <script type="text/javascript">
+        let selector = document.getElementById('selector');
+        let btn = document.getElementById('btn');
+        let childId = document.getElementsByName('child_id');
+
+        btn.onclick = (event) => {
+            event.preventDefault();
+            // alert(selector.value);
+            if (selector.value == 'yes') {
+                location.href = "/ABC/{{user_event.id}}/confirmJoin"
+            }
+            else if (selector.value == 'no') {
+                location.href = "/ABC/{{user_event.id}}/confirmJoin"
+            }
+            else if (selector.value == 'none') {
+                alert("Please select either 'yes' or 'no'")
+            }
+        }
+    </script>
 </body>
 
 </html>

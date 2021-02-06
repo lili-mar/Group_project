@@ -32,7 +32,8 @@ urlpatterns = [
     
     path('myEvents', views.myEvents),
     path('dashboard', views.dashboard),
-    path('event/<int:id>/newJoin', views.newJoin),
+    path('event/<int:event_id>/newJoin', views.viewJoin),
+    path('event/<int:event_id>/requestJoin', views.requestJoin),
     
     
    
