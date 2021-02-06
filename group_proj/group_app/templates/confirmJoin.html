@@ -10,135 +10,123 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>Event Details</title>
 </head>
-<body>
-
-
-    <div class="container">
-        <h1>Details of the {{ one_event.event_name }} Event - {{ user.first_name }}!</h1>
-        <a href="/ABC/dashboard">Dashboard </a> | <a href="/ABC/myProfile">myProfile </a> | <a
-            href="/ABC/myEvents">myEvents </a>
-            <a class="float-right" href="/ABC/logout">Log Out</a>
-            <br><br>
-        <div class="row">
-            <div class="col" id="left">
-                <h4>{{ one_event.event_name }} Event</h4>
-                <br>
-                <p><strong>Location: </strong> {{ one_event.location }}</p>
-                <p><strong>Date: </strong> {{ one_event.event_date }}</p>
-                <p><strong>Time: </strong> {{ one_event.event_time }}</p>
-                {% if one_event.location != "Zoom Link" %} 
-                <p><strong>Address: </strong>{{ one_event.street_address }} <br> {{ one_event.city}} , {{ one_event.state}} {{ one_event.zip_code}}</p> 
-                {%else%}
-                <p></p><strong>Address: </strong> ABC ChildCare<br>
-                    {{ one_event.street_address }} <br> {{ one_event.city}} , {{ one_event.state}} {{ one_event.zip_code}}</p> 
-                {%endif%}
-                <br>
-            </div>  
-            <div class= "col" id="temp-right"> 
-                {% if one_event.location != "Zoom Link" %} 
-                <h4>{{ one_event.location }} </h4>
-                {%else%}
-                <h5>ABC ChildCare virtual Zoom Room</h5>
-                {%endif%}
-
-                <!-- location where map will show up -->
-                <div id="map"></div> 
-                <br>
+    <body>
+        <div class="container">
+            <h1>Details of the {{ one_event.event_name }} Event - {{ user.first_name }}!</h1>
+            <a href="/ABC/dashboard">Dashboard </a> | <a href="/ABC/myProfile">myProfile </a> | <a
+                href="/ABC/myEvents">myEvents </a>
+                <a class="float-right" href="/ABC/logout">Log Out</a>
+                <br><br>
+            <div class="row">
+                <div class="col" id="left">
+                    <h4>{{ one_event.event_name }} Event</h4>
+                    <br>
+                    <p><strong>Location: </strong> {{ one_event.location }}</p>
+                    <p><strong>Date: </strong> {{ one_event.event_date }}</p>
+                    <p><strong>Time: </strong> {{ one_event.event_time }}</p>
+                    {% if one_event.location != "Zoom Link" %} 
+                    <p><strong>Address: </strong>{{ one_event.street_address }} <br> {{ one_event.city}} , {{ one_event.state}} {{ one_event.zip_code}}</p> 
+                    {%else%}
+                    <p></p><strong>Address: </strong> ABC ChildCare<br>
+                        {{ one_event.street_address }} <br> {{ one_event.city}} , {{ one_event.state}} {{ one_event.zip_code}}</p> 
+                    {%endif%}
+                    <br>
+                </div>  
+                <div class= "col" id="temp-right"> 
+                    {% if one_event.location != "Zoom Link" %} 
+                    <h4>{{ one_event.location }} </h4>
+                    {%else%}
+                    <h5>ABC ChildCare virtual Zoom Room</h5>
+                    {%endif%}    
+                    <div id="map"></div>   <!-- location where map will show up -->
+                    <br>
+                </div>
             </div>
+                <hr>
+                {% if messages %}
+                    <ul class="messages">    
+                        {% for message in messages %}    
+                            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                <h4>Post a Message</h4>   
+                <form action="/ABC/createMessage/{{one_event.id}}" method="POST">
+                    {% csrf_token %}                <!--this prevents csrf error -should ALWAYS be here!! --> 
+                    <div class="form-group">
+                        <!-- <label for="msg_content">Message:</label> -->
+                        <textarea class="form-control w-50" name="msg_content" id="msg_content"   cols="10" rows="3"></textarea>
+                    </div>           
+                    <button class="btn btn-sm btn-primary">Post Message</button>
+                </form>
+                <br>
+
+                {% for message in messages_list %}
+                    <br>
+                    <pr class='poster'>Message created By:  {{message.msg_UsrJoin.first_name}} {{message.msg_UsrJoin.last_name}} - {{message.created_at|date:'F jS Y'}}</pr>
+                    <p class='post'>{{message.msg_content}}</p>
+
+                    {% if user not in message.user_likes.all %}  <!--if logged user hasn't like this comment -show "like" --> 
+                        <a href="/ABC/like/{{one_event.id}}/{{message.id}}">Like Message Posted</a> --> <p style="display:inline; color: rgb(162, 0, 255);">Total likes: {{ message.user_likes.count }}</p>
+                    {% else %}
+                        <a href="/ABC/unlike/{{one_event.id}}/{{message.id}}">UnLike Message!</a> --> <p style="display:inline; color:  rgb(162, 0, 255);">Total likes: {{ message.user_likes.count }}</p>
+                    {% endif %}
+                    
+                    <!-- add one_event.id  to be able to return to confirmJoin -no need to add eventID in Comment model -->
+                    <form action="/ABC/createComment/{{one_event.id}}/{{message.id}}" method="POST">
+                        {% csrf_token %}   <!--this prevents csrf error -should ALWAYS be here!! --> 
+                        <br>             
+                        <div class="form-group">
+                            <label for="com_content"><strong>Post a comment:</strong></label>
+                            <textarea class="form-control w-20" name="com_content" id="com_content"   cols="5" rows="1"></textarea>
+                        </div>           
+                        <button class="btn btn-sm btn-success">Post Comment</button>
+                        <br>
+                    </form>
+                    
+                    {% for comment in message.msgcomments_join.all %}
+                        <br>
+                        <pr>Comment posted by: {{comment.com_UserJoin.first_name}} {{comment.com_UserJoin.last_name}}</pr>
+                        <pr>{{comment.com_content}}</pr>
+                            {% if comment.com_UserJoin.id == request.session.user_id %} 
+                                <a href="/ABC/deleteComment/{{one_event.id}}/{{comment.id}}" role="button" class="btn btn-sm btn-danger">Delete this comment</a>
+                            {% endif %}
+                            <br>
+                    {% endfor %}
+
+                {% endfor %}                 
         </div>
 
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key={{api_key}}&callback=initMap"
+        type="text/javascript">
+        </script>
 
-            <hr>
-            {% if messages %}
-                <ul class="messages">    
-                    {% for message in messages %}    
-                        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
-                    {% endfor %}
-                </ul>
-            {% endif %}
+        <script>
+            console.log("testing if our script is running")
+            function initMap() {
+                console.log("testing initializing map")  
+                geocoder = new google.maps.Geocoder();  // initialize our geocoder
+            
+                geocoder.geocode( { 'address': "{{ one_event.street_address }} {{ one_event.city}} , {{ one_event.state}} {{ one_event.zip_code}}" }, function(results, status) {
+                    if (status == 'OK') {
+                        console.log(results)
+                        const map = new google.maps.Map(document.getElementById("map"), {
+                            zoom: 12,
+                            center: results[0].geometry.location,
+                        });
+                        var marker = new google.maps.Marker({
+                            map: map,
+                            position: results[0].geometry.location,
+                            zoom: 4
+                        });
+                    } else {
+                        alert('Geocode was not successful for the following reason: ' + status);
+                    }
+                });
 
-            <h4>Post a Message</h4>   
-            <form action="/ABC/createMessage/{{one_event.id}}" method="POST">
-                {% csrf_token %}                <!--this prevents csrf error -should ALWAYS be here!! --> 
-                <div class="form-group">
-                    <label for="msg_content">Message:</label>
-                    <textarea class="form-control w-50" name="msg_content" id="msg_content"   cols="10" rows="3"></textarea>
-                </div>           
-                <button class="btn btn-sm btn-primary">Post Message</button>
-            </form>
-            <br>
+            }
+        </script>
 
-            {% for message in messages_list %}
-                <br>
-                <!-- <p class='poster'>Message created By:  {{message.msg_UsrJoin.first_name}} {{message.msg_UsrJoin.last_name}} - {{message.created_at|date:'F jS Y'}}</p> -->
-                <pr class='poster'>Message created By:  {{message.msg_UsrJoin.first_name}} {{message.msg_UsrJoin.last_name}} - {{message.created_at|date:'F jS Y'}}</pr>
-                <p class='post'>{{message.msg_content}}</p>
-
-                {% if user not in message.user_likes.all %}  <!--if logged user hasn't like this comment -show "like" --> 
-                    <a href="/ABC/like/{{one_event.id}}/{{message.id}}">Like Message Posted</a> --> <p style="display:inline; color: red;">Total likes: {{ message.user_likes.count }}</p>
-                {% else %}
-                    <a href="/ABC/unlike/{{one_event.id}}/{{message.id}}">UnLike Message!</a>
-                {% endif %}
-                   
-               
-
-                <!-- add one_event.id  to be able to return to confirmJoin -no need to add eventID in Comment model -->
-                <form action="/ABC/createComment/{{one_event.id}}/{{message.id}}" method="POST">
-                    {% csrf_token %}  
-                    <br>              <!--this prevents csrf error -should ALWAYS be here!! --> 
-                    <div class="form-group">
-                        <label for="com_content"><strong>Post comment:</strong></label>
-                        <textarea class="form-control w-20" name="com_content" id="com_content"   cols="5" rows="1"></textarea>
-                    </div>           
-                    <button class="btn btn-sm btn-success">Post Comment</button>
-                    <br>
-                </form>
-                
-                {% for comment in message.msgcomments_join.all %}
-                    <br>
-                    <pr>Comment posted by: {{comment.com_UserJoin.first_name}} {{comment.com_UserJoin.last_name}}</pr>
-                    <p>{{comment.com_content}}</p>
-                        {% if comment.com_UserJoin.id == request.session.user_id %} 
-                            <a href="/ABC/deleteComment/{{one_event.id}}/{{comment.id}}">Delete this comment</a>
-                        {% endif %}
-                        <br>
-                {% endfor %}
-
-            {% endfor %}                 
-    </div>
-
-
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{api_key}}&callback=initMap"
-    type="text/javascript">
-    </script>
-
-    <script>
-        console.log("testing if our script is running")
-        function initMap() {
-            console.log("testing initializing map")
-            // initialize our geocoder
-            geocoder = new google.maps.Geocoder();
-          
-            geocoder.geocode( { 'address': "{{ one_event.street_address }} {{ one_event.city}} , {{ one_event.state}} {{ one_event.zip_code}}" }, function(results, status) {
-                if (status == 'OK') {
-                    console.log(results)
-                    const map = new google.maps.Map(document.getElementById("map"), {
-                        zoom: 12,
-                        center: results[0].geometry.location,
-                    });
-
-                    var marker = new google.maps.Marker({
-                        map: map,
-                        position: results[0].geometry.location,
-                        zoom: 4
-                    });
-                } else {
-                    alert('Geocode was not successful for the following reason: ' + status);
-                }
-            });
-
-        }
-    </script>
-
-</body>
+    </body>
 </html>
