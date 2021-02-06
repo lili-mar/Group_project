@@ -138,9 +138,24 @@ h4{
 h5{
     color:orangered; 
 }
-
+h6{
+    color:green; 
+}
 #temp-right{
     display:inline-block;
     vertical-align: top;
 }
+
+.poster {
+    font-size: 11pt;
+    text-align: left;
+    font-family: sans-serif;
+    
+}
+.post{
+    font-size: 14pt;
+    text-align: left;
+    
+}
+
 /* lily -end---- */

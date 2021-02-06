@@ -190,8 +190,6 @@ def newJoin(request, id):
     return render(request, 'newJoin.html', context)
 
 
-# ----Lily's work in progress ---------------------------------------
-
 def confirmJoin(request, event_id):
     this_event = Event.objects.filter(id=event_id)  #d_id comes from the urls.py parm.  FILTER is SO important here -do not use GET!       
     if len(this_event) != 1:
@@ -201,46 +199,62 @@ def confirmJoin(request, event_id):
         'one_event': this_event[0],  #need this because it is a list.  grab "value" to initially populate record for the update/view
         'user': user,
         'api_key': settings.SECRET_KEY2,  #if inspect -unfortunately you can still see the key!
-        'messages_list': this_event[0].eventmessages_join.all(), #only messages for this SPECIFIC event
+        'messages_list': this_event[0].eventmessages_join.all().order_by("-created_at"), #only messages for this SPECIFIC event
     }
     return render(request, 'confirmJoin.html', context) 
 
 
 def create_msg(request, event_id):
-    this_event = Event.objects.filter(id=event_id) 
-    Message.objects.create(
-        msg_content=request.POST['msg_content'],
-        msg_UsrJoin=User.objects.get(id=request.session['user_id']),  #comes from the login 
-        msg_EventJoin=this_event[0], 
-        )
+    errors = Message.objects.msg_validator(request.POST)
+    if len(errors):
+        for key, value in errors.items():
+            messages.error(request, value)
+    else:   
+        if  request.method == "POST":
+            this_event = Event.objects.filter(id=event_id) 
+            Message.objects.create(
+                msg_content=request.POST['msg_content'],
+                msg_UsrJoin=User.objects.get(id=request.session['user_id']),  #comes from the login 
+                msg_EventJoin=this_event[0], 
+            )
     return redirect(f'/ABC/{event_id}/confirmJoin')
 
-def create_comment(request, msg_id):
-    this_msg = Message.objects.get(id=msg_id)
-    Comment.objects.create(com_content=request.POST['com_content'],
-        com_UserJoin=User.objects.get(id=request.session['user_id']), #c#comes from the login 
-        msg_CommJoin=this_msg,  #join the comment with the message
-        )
-    return redirect('/ABC/<int:event_id>/confirmJoin')
+def create_comment(request, event_id, msg_id):
+    errors = Comment.objects.comm_validator(request.POST)
+    if len(errors):
+        for key, value in errors.items():
+            messages.error(request, value)    
+    else:   
+        if  request.method == "POST":  
+            this_msg = Message.objects.get(id=msg_id)
+            Comment.objects.create(com_content=request.POST['com_content'],
+                com_UserJoin=User.objects.get(id=request.session['user_id']), #c#comes from the login 
+                msg_CommJoin=this_msg,  #join the comment with the message
+            )   
+    return redirect(f'/ABC/{event_id}/confirmJoin')
 
-def delete_comment(request, comm_id):
+def delete_comment(request, event_id, comm_id):
     this_comm = Comment.objects.get(id=comm_id)
     this_Logged_user = User.objects.get(id=request.session['user_id'])
 
     if this_comm.com_UserJoin ==  this_Logged_user:  #only owner of comment can delete OR in html -just show "delete" to owner.  
         this_comm.delete()       
-    return redirect('/ABC/<int:event_id>/confirmJoin')
+    return redirect(f'/ABC/{event_id}/confirmJoin')
 
-def add_like(request, msg_id):
+
+# ----Lily's work in progress ---------------------------------------
+
+def add_like(request, event_id, msg_id):
     liked_message = Message.objects.get(id=msg_id)
     user_liking = User.objects.get(id=request.session['user_id'])
     liked_message.user_likes.add(user_liking)
-    return redirect('/ABC/<int:event_id>/confirmJoin')
-def remove_like(request, msg_id):
+    return redirect(f'/ABC/{event_id}/confirmJoin')
+
+def remove_like(request, event_id, msg_id):
     liked_message = Message.objects.get(id=msg_id)
     user_liking = User.objects.get(id=request.session['user_id'])
     liked_message.user_likes.remove(user_liking)
-    return redirect('/ABC/<int:event_id>/confirmJoin')
+    return redirect(f'/ABC/{event_id}/confirmJoin')
 
 
 

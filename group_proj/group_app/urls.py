@@ -38,11 +38,11 @@ urlpatterns = [
    
      #path('confirmJoin', views.confirmJoin),
     path('<int:event_id>/confirmJoin', views.confirmJoin),  #localhost:8000/ABC/<event_id/confirmJoin>
-    path('<int:event_id>/createMessage', views.create_msg), 
-    path('createComment/<int:msg_id>', views.create_comment),
-    path('delete/<int:comm_id>', views.delete_comment),
-    path('like/<int:msg_id>', views.add_like),
-    path('unlike/<int:msg_id>', views.remove_like),
+    path('createMessage/<int:event_id>', views.create_msg),
+    path('createComment/<int:event_id>/<int:msg_id>', views.create_comment),
+    path('deleteComment/<int:event_id>/<int:comm_id>', views.delete_comment),
+    path('like/<int:event_id>/<int:msg_id>', views.add_like),
+    path('unlike/<int:event_id>/<int:msg_id>', views.remove_like),
 
 
 ]
