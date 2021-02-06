@@ -5,6 +5,30 @@
 <!-- test for git push -->
 
 <head>
+<<<<<<< HEAD
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <title>dashboard</title>
+=======
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
@@ -21,26 +45,37 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>dashboard</title>
+>>>>>>> main
 </head>
 
 <body>
 
-    <!-- <h1>This is a test for git branch</h1> -->
+  <!-- <h1>This is a test for git branch</h1> -->
 
-    <div class="container">
-        <h1>Welcome to ABC Child Care Center- {{ user.first_name }}!</h1>
-        <a href="/ABC/myProfile">myProfile </a> | <a href="/ABC/myEvents">myEvents </a>
-        <a class="float-right" href="/ABC/logout">Log Out</a>
-        <br><br><br><br>
+  <div class="container">
+    <h1>Welcome to ABC Child Care Center- {{ user.first_name }}!</h1>
+    <a href="/ABC/myProfile">myProfile </a> | <a href="/ABC/myEvents">myEvents </a>
+    <a class="float-right" href="/ABC/logout">Log Out</a>
+    <br><br><br><br>
 
+<<<<<<< HEAD
+    <p> This is the Dashboard page</p>
+    <br>
+    <!-- <p> It will show all the Active events from our "Event" table. It will also allow us to "search" for a specific
+=======
         <p> This is the Dashboard page</p>
         <br>
         <p> It will show all the Active events from our "Event" table. It will also allow us to "search" for a specific
+>>>>>>> main
             event</p>
 
         <br>
 
+<<<<<<< HEAD
+    <!-- <p> Search from our list of events:</p>
+=======
         <h3> Search from our list of events:</h3>
+>>>>>>> main
 
         <div class="header">
           <div id="nav"></div>
@@ -51,6 +86,72 @@
           <button type="button" class="btn btn-outline-primary">search</button>
         </div>
         
+<<<<<<< HEAD
+        <br><br><br>
+
+        <div class="alert alert-danger">
+            <class="display-5">Sorry, activity "Play Date" does not exist</class>
+        </div> -->
+    <br />
+
+    <table class="table table-striped table-bordered table-hover">
+      <thead class="thead-dark">
+
+        <tr>
+          <th scope="col">Event Name</th>
+          <th scope="col">Location </th>
+          <th scope="col">Date</th>
+          <th scope="col">Time</th>
+          <th scope="col">Max Capacity</th>
+          <th scope="col">Currently Enrolled</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+
+      {% for event in events %}
+      <tbody>
+        <tr>
+          <td><a href="/event/{{event.id}}">{{event.event_name}}</a></td>
+          <td><a href="/event/{{event.id}}">{{event.location}}</a></td>
+          <td>{{ event.event_date }}</td>
+          <td>{{ event.event_time }}</td>
+          <td>{{ event.max_capacity }}</td>
+          <td>{{ event.current_enrolled }}</td>
+
+          <td>
+            {% if event.max_capacity > event.current_enrolled %}
+            <form action="/ABC/event/{{id}}/newJoin" method="post">
+              {% csrf_token %}
+
+              <input class="btn btn-sm btn-primary" type="submit" value="Join">
+
+              {% else %}
+
+              <p> Full </p>
+              {% endif %}
+
+            </form>
+          </td>
+
+        </tr>
+        </tr>
+      </tbody>
+
+      {% endfor %}
+    </table>
+
+    <br /><br />
+
+    <hr>
+    <p></p>
+    <a href="/ABC/newJoin"><strong>when the ACTION = JOIN is clicked a confirmation selection
+        will
+        be
+        displayed
+        -newJoin page</strong></a>
+
+  </div>
+=======
         <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
         <!-- <script>
           
@@ -156,6 +257,7 @@
         </div> -->
 
         <script src="{% static 'js/script.js' %}"></script> 
+>>>>>>> main
 
 </body>
 

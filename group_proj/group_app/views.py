@@ -10,9 +10,11 @@ def index(request):
     request.session.flush()
     return render(request, 'index.html')
 
+
 def logout(request):
     request.session.flush()
     return redirect('/ABC')
+
 
 def login(request):
     if request.method == 'POST':
@@ -79,7 +81,8 @@ def regChild(request):
         if len(errors) > 0:
             for key, value in errors.items():
                 messages.error(request, value)
-            return redirect('/ABC/childForm')  # redirect the user back to the form to fix the errors
+            # redirect the user back to the form to fix the errors
+            return redirect('/ABC/childForm')
 
         else:
             user = User.objects.get(id=request.session['user_id'])
@@ -137,27 +140,29 @@ def remove_child_myProfile(request):
         else:
             return redirect('/ABC')
 
+
 def remove_event_myEvents(request):
     # if 'event_id' not in request.session:
     #     return redirect('/ABC/myEvents')
     # else:
     if request.method == "POST":
-        event= Event.objects.get(id=request.POST['event_id'])
+        event = Event.objects.get(id=request.POST['event_id'])
         event.delete()
         return redirect('/ABC/myEvents')
     else:
         return redirect('/ABC')
 
+
 def myEvents(request):
     if 'user_id' not in request.session:
         return redirect('/ABC')
     user = User.objects.get(id=request.session['user_id'])
-    past_events=Event.objects.filter(event_date__lte = datetime.today())
-    future_events=Event.objects.filter(event_date__gte = datetime.today())
+    past_events = Event.objects.filter(event_date__lte=datetime.today())
+    future_events = Event.objects.filter(event_date__gte=datetime.today())
     context = {
         'user': user,
         'past_events': past_events,
-        'future_events':future_events,
+        'future_events': future_events,
     }
     return render(request, 'myEvents.html', context)
 
@@ -176,35 +181,113 @@ def dashboard(request):
     return render(request, 'dashboard.html', context)
 
 
-def newJoin(request, id):
+def viewJoin(request, event_id):
     if 'user_id' not in request.session:
         return redirect('/ABC')
     user = User.objects.get(id=request.session['user_id'])
     children = user.enrolled_parent.all()
-    events = Event.objects.get(id=id)
+    event = Event.objects.get(id=event_id)
     context = {
         'user': user,
         'children': children,
-        'events': events,
+        'user_event': event,
     }
     return render(request, 'newJoin.html', context)
 
 
+<<<<<<< HEAD
+def requestJoin(request, event_id):
+    if 'user_id' not in request.session:
+        return redirect('/ABC')
+    else:
+        if request.method == "POST":
+            user = User.objects.get(id=request.session['user_id'])
+            children = user.enrolled_parent.all()
+            event = Event.objects.get(id=event_id)
+            enrolled_child = children.get(id=request.POST['child_id'])
+            selector = request.POST['dropdown']
+            if selector['value'] == 'yes':
+                event.enrolled_child.add(enrolled_child)
+                event.save()
+            else:
+                event.save()
+        else:
+            return redirect('/event/<int:event_id>/newJoin')
+    return redirect('/<int:event_id>/confirmation')
+
+
+# ----Lily's work in progress ---------------------------------------
+
+=======
+>>>>>>> main
 def confirmJoin(request, event_id):
-    this_event = Event.objects.filter(id=event_id)  #d_id comes from the urls.py parm.  FILTER is SO important here -do not use GET!       
+    # d_id comes from the urls.py parm.  FILTER is SO important here -do not use GET!
+    this_event = Event.objects.filter(id=event_id)
     if len(this_event) != 1:
         return redirect('/ABC/dashboard')
     user = User.objects.get(id=request.session['user_id'])
     context = {
-        'one_event': this_event[0],  #need this because it is a list.  grab "value" to initially populate record for the update/view
+        # need this because it is a list.  grab "value" to initially populate record for the update/view
+        'one_event': this_event[0],
         'user': user,
+<<<<<<< HEAD
+        # if inspect -unfortunately you can still see the key!
+        'api_key': settings.SECRET_KEY2,
+        # only messages for this SPECIFIC event
+        'messages_list': this_event[0].eventmessages_join.all(),
+=======
         'api_key': settings.SECRET_KEY2,  #if inspect -unfortunately you can still see the key!
         'messages_list': this_event[0].eventmessages_join.all().order_by("-created_at"), #only messages for this SPECIFIC event
+>>>>>>> main
     }
-    return render(request, 'confirmJoin.html', context) 
+    return render(request, 'confirmJoin.html', context)
 
 
 def create_msg(request, event_id):
+<<<<<<< HEAD
+    this_event = Event.objects.filter(id=event_id)
+    Message.objects.create(
+        msg_content=request.POST['msg_content'],
+        msg_UsrJoin=User.objects.get(
+            id=request.session['user_id']),  # comes from the login
+        msg_EventJoin=this_event[0],
+    )
+    return redirect(f'/ABC/{event_id}/confirmJoin')
+
+
+def create_comment(request, msg_id):
+    this_msg = Message.objects.get(id=msg_id)
+    Comment.objects.create(com_content=request.POST['com_content'],
+                           com_UserJoin=User.objects.get(
+                               id=request.session['user_id']),  # c#comes from the login
+                           msg_CommJoin=this_msg,  # join the comment with the message
+                           )
+    return redirect('/ABC/<int:event_id>/confirmJoin')
+
+
+def delete_comment(request, comm_id):
+    this_comm = Comment.objects.get(id=comm_id)
+    this_Logged_user = User.objects.get(id=request.session['user_id'])
+
+    # only owner of comment can delete OR in html -just show "delete" to owner.
+    if this_comm.com_UserJoin == this_Logged_user:
+        this_comm.delete()
+    return redirect('/ABC/<int:event_id>/confirmJoin')
+
+
+def add_like(request, msg_id):
+    liked_message = Message.objects.get(id=msg_id)
+    user_liking = User.objects.get(id=request.session['user_id'])
+    liked_message.user_likes.add(user_liking)
+    return redirect('/ABC/<int:event_id>/confirmJoin')
+
+
+def remove_like(request, msg_id):
+    liked_message = Message.objects.get(id=msg_id)
+    user_liking = User.objects.get(id=request.session['user_id'])
+    liked_message.user_likes.remove(user_liking)
+    return redirect('/ABC/<int:event_id>/confirmJoin')
+=======
     errors = Message.objects.msg_validator(request.POST)
     if len(errors):
         for key, value in errors.items():
@@ -258,3 +341,4 @@ def remove_like(request, event_id, msg_id):
 
 
 
+>>>>>>> main
