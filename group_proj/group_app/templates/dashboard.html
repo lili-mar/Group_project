@@ -80,7 +80,6 @@
                             <td>{{ event.event_time }}</td>
                             <td>{{ event.max_capacity }}</td>
                             <td>{{ event.current_enrolled }}</td>
-                            
                             <td>
                               {% if event.max_capacity > event.current_enrolled %}
                               <form action="/ABC/event/{{id}}/newJoin" method="post">
@@ -95,14 +94,14 @@
 
                             </form>
                             </td>
-                          
-                        </tr>
+                  
                         </tr>
                     </tbody>
 
           {% endfor %}
-                </table>
+    </table>
 
+                
 <br/><br/>
 
         <hr>

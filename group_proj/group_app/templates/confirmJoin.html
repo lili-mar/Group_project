@@ -18,8 +18,7 @@
         <a href="/ABC/dashboard">Dashboard </a> | <a href="/ABC/myProfile">myProfile </a> | <a
             href="/ABC/myEvents">myEvents </a>
             <a class="float-right" href="/ABC/logout">Log Out</a>
-        <br><br>
-
+            <br><br>
         <div class="row">
             <div class="col" id="left">
                 <h4>{{ one_event.event_name }} Event</h4>
@@ -33,12 +32,8 @@
                 <p></p><strong>Address: </strong> ABC ChildCare<br>
                     {{ one_event.street_address }} <br> {{ one_event.city}} , {{ one_event.state}} {{ one_event.zip_code}}</p> 
                 {%endif%}
-                <!--testing --> 
-                <p>TESTING my current event ID that was passed thru JOIN:  {{one_event.id}}</p>
-                <!--testing --> 
-                <br><br>
-            </div>
-            
+                <br>
+            </div>  
             <div class= "col" id="temp-right"> 
                 {% if one_event.location != "Zoom Link" %} 
                 <h4>{{ one_event.location }} </h4>
@@ -48,7 +43,7 @@
 
                 <!-- location where map will show up -->
                 <div id="map"></div> 
-                <br><br>
+                <br>
             </div>
         </div>
 
@@ -61,10 +56,9 @@
                     {% endfor %}
                 </ul>
             {% endif %}
-            <br>
 
-            <h3>Post a Message</h3>   
-            <form action="/ABC/{{one_event.id}}/createMessage" method="POST">
+            <h4>Post a Message</h4>   
+            <form action="/ABC/createMessage/{{one_event.id}}" method="POST">
                 {% csrf_token %}                <!--this prevents csrf error -should ALWAYS be here!! --> 
                 <div class="form-group">
                     <label for="msg_content">Message:</label>
@@ -72,29 +66,28 @@
                 </div>           
                 <button class="btn btn-sm btn-primary">Post Message</button>
             </form>
-            <br><br>
+            <br>
 
             {% for message in messages_list %}
                 <br>
-                <p class='poster'>Created By:  {{message.msg_UsrJoin.first_name}} {{message.msg_UsrJoin.last_name}} - {{message.created_at|date:'F jS Y'}}</p>
-                    <!--testing --> 
-                    <p>TESTING event ID writtten in Message model:{{message.msg_EventJoin_id}}</p>
-                    <!--testing --> 
+                <!-- <p class='poster'>Message created By:  {{message.msg_UsrJoin.first_name}} {{message.msg_UsrJoin.last_name}} - {{message.created_at|date:'F jS Y'}}</p> -->
+                <pr class='poster'>Message created By:  {{message.msg_UsrJoin.first_name}} {{message.msg_UsrJoin.last_name}} - {{message.created_at|date:'F jS Y'}}</pr>
                 <p class='post'>{{message.msg_content}}</p>
 
                 {% if user not in message.user_likes.all %}  <!--if logged user hasn't like this comment -show "like" --> 
-                    <a href="/ABC/like/{{message.id}}">Like Message Posted</a>
+                    <a href="/ABC/like/{{one_event.id}}/{{message.id}}">Like Message Posted</a> --> <p style="display:inline; color: red;">Total likes: {{ message.user_likes.count }}</p>
                 {% else %}
-                    <a href="/ABC/unlike/{{message.id}}">UnLike Message!</a>
+                    <a href="/ABC/unlike/{{one_event.id}}/{{message.id}}">UnLike Message!</a>
                 {% endif %}
-                    <p>Total likes: {{ message.user_likes.count }}</p>
-                
+                   
+               
 
-
-                <form action="/ABC/createComment/{{message.id}}" method="POST">
-                    {% csrf_token %}                <!--this prevents csrf error -should ALWAYS be here!! --> 
+                <!-- add one_event.id  to be able to return to confirmJoin -no need to add eventID in Comment model -->
+                <form action="/ABC/createComment/{{one_event.id}}/{{message.id}}" method="POST">
+                    {% csrf_token %}  
+                    <br>              <!--this prevents csrf error -should ALWAYS be here!! --> 
                     <div class="form-group">
-                        <label for="com_content">Post a Comment:</label>
+                        <label for="com_content"><strong>Post comment:</strong></label>
                         <textarea class="form-control w-20" name="com_content" id="com_content"   cols="5" rows="1"></textarea>
                     </div>           
                     <button class="btn btn-sm btn-success">Post Comment</button>
@@ -105,16 +98,17 @@
                     <br>
                     <pr>Comment posted by: {{comment.com_UserJoin.first_name}} {{comment.com_UserJoin.last_name}}</pr>
                     <p>{{comment.com_content}}</p>
-                    
-                    <a href="/ABC/delete/{{comment.id}}">Delete this comment</a>
-                    <br>
+                        {% if comment.com_UserJoin.id == request.session.user_id %} 
+                            <a href="/ABC/deleteComment/{{one_event.id}}/{{comment.id}}">Delete this comment</a>
+                        {% endif %}
+                        <br>
                 {% endfor %}
+
             {% endfor %}                 
     </div>
 
 
-
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{api_key}}=initMap"
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{api_key}}&callback=initMap"
     type="text/javascript">
     </script>
 
