@@ -50,8 +50,8 @@
             <tbody>
               {% for event in future_events %}
               <tr>
-                <td><a href="/ABC/{{event.id}}/confirmJoin">{{event.event_name}}</a></td>
-                <td><a href="/ABC/{{event.id}}/confirmJoin">{{event.location}}</a></td>
+                <td><a href="/event/{{event.id}}">{{event.event_name}}</a></td>
+                <td><a href="/event/{{event.id}}">{{event.location}}</a></td>
                 <td>{{ event.enrolled_child}}</td>
                 <td>{{ event.event_date }}</td>
                 <td>{{ event.event_time }}</td>
