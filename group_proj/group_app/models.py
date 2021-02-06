@@ -116,8 +116,15 @@ class Child(models.Model):
     parent_child = models.ForeignKey(
         User, related_name="enrolled_parent", on_delete=models.CASCADE)
     objects = ChildManager()
+    
+    @ property
     def __str__(self):
-            return self.first_name
+        return self.first_name
+
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"
+
+
         
     # -------------------end of CHILD ---------------------------------------------------------
 

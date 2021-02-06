@@ -58,7 +58,6 @@ h2{
 #header{
     display:inline-block;
     vertical-align: middle;
-    margin-top:10px;
 }
 
 
@@ -88,6 +87,7 @@ h2{
 
 #background-message{
     background:orange;
+    margin-bottom: 0;
 }
 
 #form-button{
@@ -100,7 +100,7 @@ h2{
 }
 
 #register_child{
-    margin-top:-33px;
+    margin-top:-70px;
 }
 
 #register_child h1{
@@ -165,7 +165,11 @@ h3{
 }
 
 
+#link{
+    
+    vertical-align: middle;
 
+}
 /*Mridula - End*/
 
 /* lily -start---- */
