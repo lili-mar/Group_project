@@ -111,8 +111,10 @@
            {% for event in events %}
                     <tbody>
                         <tr>
-                            <td><a href="/event/{{event.id}}">{{event.event_name}}</a></td>
-                            <td><a href="/event/{{event.id}}">{{event.location}}</a></td>
+                            <!-- <td><a href="/event/{{event.id}}">{{event.event_name}}</a></td>
+                            <td><a href="/event/{{event.id}}">{{event.location}}</a></td> -->
+                            <td><a href="/ABC/{{event.id}}/confirmJoin">{{event.event_name}}</a></td>
+                            <td><a href="/ABC/{{event.id}}/confirmJoin">{{event.location}}</a></td>
                             <td>{{ event.event_date }}</td>
                             <td>{{ event.event_time }}</td>
                             <td>{{ event.max_capacity }}</td>
