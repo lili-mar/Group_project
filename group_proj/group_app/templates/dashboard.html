@@ -120,7 +120,7 @@
                             
                             <td>
                               {% if event.max_capacity > event.current_enrolled %}
-                              <form action="/ABC/event/{{id}}/newJoin" method="post">
+                              <form action="/ABC/event/{{event.id}}/newJoin" method="post">
                                 {% csrf_token %}
                               
                               <input class ="btn btn-sm btn-primary" type="submit" value="Join">
