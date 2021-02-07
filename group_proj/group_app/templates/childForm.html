@@ -11,13 +11,23 @@
 <body>
     <div class="container">
         
+        <nav class="navbar">
+            
+            <a href="/ABC/myEvents">myEvents</a> <a href="/ABC/dashboard">Dashboard </a>  <a href="/ABC/myProfile">myProfile </a> 
+            <a class="float-right" href="/ABC/logout">Log Out</a>
+
+        </nav><!--End of Nav Bar-->
+
+        <br>
+        <br>
+        
+
         <h1 id="header">Welcome, {{ user.first_name }}!</h1>
-        <a id="header" class="float-right" href="/ABC/logout">Log Out</a>
-
-        <div id="link">
-            <a href="/ABC/dashboard">Dashboard </a> | <a href="/ABC/myProfile">myProfile </a> | <a href="/ABC/myEvents">myEvents</a>
-
-        </div><!--End of link-->
+        
+        <br><b>
+        
+            
+        
         
         
         
@@ -70,6 +80,8 @@
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
                 
                 </select>
 
