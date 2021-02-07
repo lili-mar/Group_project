@@ -8,91 +8,80 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">   
     <title>Register A Child</title>
 </head>
-<body>
-    <div class="container">
-        
-        <h1 id="header">Welcome, {{ user.first_name }}!</h1>
-        <a id="header" class="float-right" href="/ABC/logout">Log Out</a>
-
-        <div id="link">
-            <a href="/ABC/dashboard">Dashboard </a> | <a href="/ABC/myProfile">myProfile </a> | <a href="/ABC/myEvents">myEvents</a>
-
-        </div><!--End of link-->
-        
-        
-        
-        <br><br><br><br>
-        
-        
-    <div id="register_child">
-
-        <h1>ABC Child Care</h1>
-            <h3>Register A Child</h3>
+    <body>
+        <div class="container">
             
+            <nav class="navbar">           
+                <a href="/ABC/myEvents">myEvents</a> <a href="/ABC/dashboard">Dashboard </a>  <a href="/ABC/myProfile">myProfile </a> 
+                <a class="float-right" href="/ABC/logout">Log Out</a>
+            </nav><!--End of Nav Bar-->
             <br><br>
-        
-            <form id="form-button" action="/ABC/regChild" method="POST"> <!--path('regChild', views.regChild),-->
-                {% csrf_token %}
-                <div class='pMsgs'>
+
+            <h1 id="header">Welcome, {{ user.first_name }}!</h1>
+            
+            <br><br><br><br><br><br>       
+            
+            <div id="register_child">
+
+                <h1>ABC Child Care</h1>
+                <h3>Register A Child</h3>
+                
+                <br><br>
+            
+                <form id="form-button" action="/ABC/regChild" method="POST"> <!--path('regChild', views.regChild),-->
+                    {% csrf_token %}
+                    <div class='pMsgs'>
+                        
+                        
+                        {% if messages %}
+                            <ul class="messages">    
+                                {% for message in messages %}    
+                                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div><!--pMsgs-->
+
+                    <label class="block" for="first_name">First Name:</label>
+                    <input class="form-control" type="text" name="first_name">
+
+                    <label class="block" for="last_name">Last Name:</label>
+                    <input class="form-control" type="text" name="last_name">
+
+                    <label class="block" for="birthdate">Birthdate:</label>
+                    <input class="form-control" type="date" name="birth_date">
+
+                    <label class="block" for="gender">Gender:</label>
                     
-                    
-                    {% if messages %}
-                        <ul class="messages">    
-                            {% for message in messages %}    
-                                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div><!--pMsgs-->
+                    <select class="form-control" name="child_gender">
+                        <option value=""></option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
 
-                <label class="block" for="first_name">First Name:</label>
-                <input class="form-control" type="text" name="first_name">
+                    <label class="block" for="grade">Age:</label>
 
-                <label class="block" for="last_name">Last Name:</label>
-                <input class="form-control" type="text" name="last_name">
+                    <select class="form-control" class="block" name="child_age">
+                        <option value=""></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
 
-                <label class="block" for="birthdate">Birthdate:</label>
-                <input class="form-control" type="date" name="birth_date">
+                    <label class="block" for="program">Child Program:</label>
 
-                <label class="block" for="gender">Gender:</label>
-                
-                <select class="form-control" name="child_gender">
-                    <option value=""></option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
-
-                <label class="block" for="grade">Age:</label>
-
-                <select class="form-control" class="block" name="child_age">
-                    <option value=""></option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                
-                </select>
-
-                <label class="block" for="program">Child Program:</label>
-
-                <select class="form-control" name="child_program">
-                    <option value=""></option>
-                    <option value="Todler / Twos (1-2)">Todler / Twos (1-2)</option>
-                    <option value="Pre-K (3-4)">Pre-K (3-4)</option>
-                    <option value="Kindergarden (5-6)">Kindergarden (5-6)</option>
-                </select>
-                <button class="btn btn-success" type="submit">Register A Child</button>
-
-                
-
-            </form><!--End of Form-->
-
-        
-    
-    </div><!--My profile-->
-        
-        
-
-    </div><!--Container-->
-</body>
+                    <select class="form-control" name="child_program">
+                        <option value=""></option>
+                        <option value="Todler / Twos (1-2)">Todler / Twos (1-2)</option>
+                        <option value="Pre-K (3-4)">Pre-K (3-4)</option>
+                        <option value="Kindergarden (5-6)">Kindergarden (5-6)</option>
+                    </select>
+                    <button class="btn btn-success" type="submit">Register A Child</button>
+                </form><!--End of Form-->
+            </div><!--My profile--> 
+        </div><!--Container-->
+    </body>
 </html>

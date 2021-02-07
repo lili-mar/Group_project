@@ -72,7 +72,7 @@ class User(models.Model):
 
     objects = UserManager()
 
-    @ property
+    #@ property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
 
@@ -117,7 +117,7 @@ class Child(models.Model):
         User, related_name="enrolled_parent", on_delete=models.CASCADE)
     objects = ChildManager()
     
-    @ property
+    #@ property
     def __str__(self):
         return self.first_name
 
