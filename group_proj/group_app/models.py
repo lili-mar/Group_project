@@ -71,7 +71,9 @@ class User(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     objects = UserManager()
-
+    def __str__(self):
+        return self.first_name
+        
     @ property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
@@ -117,10 +119,11 @@ class Child(models.Model):
         User, related_name="enrolled_parent", on_delete=models.CASCADE)
     objects = ChildManager()
     
-    @ property
+   
     def __str__(self):
         return self.first_name
 
+    @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
 

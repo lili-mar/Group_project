@@ -189,7 +189,6 @@ def viewJoin(request, event_id):
     }
     return render(request, 'newJoin.html', context)
 
-
 def requestJoin(request, event_id):
     if 'user_id' not in request.session:
         return redirect('/ABC')
@@ -198,17 +197,17 @@ def requestJoin(request, event_id):
             user = User.objects.get(id=request.session['user_id'])
             children = user.enrolled_parent.all()
             event = Event.objects.get(id=event_id)
-            enrolled_child = children.get(id=request.POST['child_id'])
             selector = request.POST['dropdown']
-            if selector['value'] == 'yes':
-                event.enrolled_child.add(enrolled_child)
+            if selector[0] == 'yes':
+                selected_child = children.get(id=request.POST['child_id'])
+                event.enrolled_child.add(selected_child)
                 event.save()
+                return redirect('/ABC/myEvents')
             else:
                 event.save()
+                return redirect('/ABC/myEvents')
         else:
             return redirect('/event/<int:event_id>/newJoin')
-    return redirect('/<int:event_id>/confirmation')
-
 
 def confirmJoin(request, event_id):
     this_event = Event.objects.filter(id=event_id)  #d_id comes from the urls.py parm.  FILTER is SO important here -do not use GET!       
