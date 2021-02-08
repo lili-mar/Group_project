@@ -73,7 +73,7 @@ class User(models.Model):
     objects = UserManager()
     def __str__(self):
         return self.first_name
-        
+
     @ property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
@@ -119,7 +119,6 @@ class Child(models.Model):
         User, related_name="enrolled_parent", on_delete=models.CASCADE)
     objects = ChildManager()
     
-   
     def __str__(self):
         return self.first_name
 
@@ -130,7 +129,6 @@ class Child(models.Model):
 
         
     # -------------------end of CHILD ---------------------------------------------------------
-
 class Event(models.Model):
     event_name = models.CharField(max_length=250)
     location = models.CharField(max_length=250)
@@ -145,8 +143,16 @@ class Event(models.Model):
     zip_code = models.CharField(max_length=5)
     child_event = models.ManyToManyField(Child, related_name='enrolled_child')
     user_event = models.ManyToManyField(User, related_name='enrolled_user')
+
     def __str__(self):
-            return self.event_name
+        return self.event_name
+
+    @ property
+    def full_address(self):
+        return f"{self.street_address}, {self.city}, {self.zip_code}"
+
+
+
         
 # -------------------end of EVENT ---------------------------------------------------------
 class MessageManager(models.Manager):

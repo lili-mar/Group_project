@@ -1,8 +1,7 @@
 *{
     margin:0;
     padding:0;
-    /*border:dotted 1px red;*/
-}
+} 
 
 h1{
     color: rgb(136, 0, 106);
@@ -15,8 +14,8 @@ h2{
 }
 
 
-/* Myprofile Page */
-/* Developer : Jaehyun */
+/* Myprofile Page /
+/ Developer : Jaehyun */
 
 .navbar {
     display: flex;
@@ -26,7 +25,7 @@ h2{
 
 #my_profile {
     border: solid lightgray;
-    padding: 10px
+    padding: 20px;
 }
 
 #my_profile h1 {
@@ -36,6 +35,7 @@ h2{
 
 #enrolled_children {
     border: solid lightgray;
+    padding: 20px;
 }
 
 #enrolled_children h1 {
@@ -47,18 +47,25 @@ h2{
     text-decoration: none;
 }
 
-.btn-block {
-    margin-top:50px;
+#event_info {
+    border: solid lightgray;
+    padding: 20px;
 }
+
+#child_info {
+    border: solid lightgray;
+}
+
+.table tr th {
+    text-align: center;
+}
+
+.table tr td {
+    text-align: center;
+}
+
 
 /*Mridula  Start*/
-
-
-
-#header{
-    display:inline-block;
-    vertical-align: middle;
-}
 
 
 .container{
@@ -76,8 +83,9 @@ h2{
     margin-top:1rem;
     width:100%;
     /*background:purple;*/
-    background:yellow;
-    color:black;
+    /*background:yellow;*/
+    /*color:black;*/
+    color:white;
     border:none;
 }
 
@@ -86,7 +94,7 @@ h2{
 }
 
 #background-message{
-    background:orange;
+    /*background:orange;*/
     margin-bottom: 0;
 }
 
@@ -100,7 +108,7 @@ h2{
 }
 
 #register_child{
-    margin-top:-70px;
+    margin-top:-100px;
 }
 
 #register_child h1{
@@ -111,7 +119,7 @@ h2{
 
 #right #register{
     margin-left:8px;
-    background-color: rgb(81, 81, 228);
+    /*background-color: rgb(81, 81, 228);*/
     border:none;
 }
 
@@ -140,24 +148,22 @@ h2{
 }
 
 .partlogin button{
-    
     width:100%;
-    background-color:yellow;
-    color:black;
-    border-color:yellow;
+    /*background-color:yellow;*/
+    /*color:black;*/
+    color:white;
+    /*border-color:yellow;*/
+    font-weight:bold;
 }
 
-.partlogin button hover{
-    background-color:orange;
-    color:white;
-}
 
 .partReg button{
     
     width:100%;
-    background-color:  yellow;
-    border-color:yellow;
-    color:black;
+    /*background-color:  yellow;*/
+    /*border-color:yellow;*/
+    /*color:black;*/
+    color:white;
 }
 
 h3{
@@ -165,11 +171,11 @@ h3{
 }
 
 
-#link{
-    
-    vertical-align: middle;
 
+label{
+    font-weight: 400;
 }
+
 /*Mridula - End*/
 
 /* lily -start---- */
