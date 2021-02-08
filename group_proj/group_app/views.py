@@ -154,10 +154,12 @@ def myEvents(request):
     user = User.objects.get(id=request.session['user_id'])
     past_events=Event.objects.filter(event_date__lte = datetime.today())
     future_events=Event.objects.filter(event_date__gte = datetime.today())
+    child=Child.objects.filter(parent_child=user)
     context = {
         'user': user,
         'past_events': past_events,
         'future_events':future_events,
+        'child': child,
     }
     return render(request, 'myEvents.html', context)
 
@@ -198,16 +200,17 @@ def requestJoin(request, event_id):
             user = User.objects.get(id=request.session['user_id'])
             children = user.enrolled_parent.all()
             event = Event.objects.get(id=event_id)
-            enrolled_child = children.get(id=request.POST['child_id'])
-            selector = request.POST['dropdown']
-            if selector['value'] == 'yes':
-                event.enrolled_child.add(enrolled_child)
-                event.save()
-            else:
-                event.save()
+            check_boxes = request.POST.getlist('childrenJoin', [])
+            for checkbox_result in check_boxes:
+                selected_child = Child.objects.get(
+                    id=checkbox_result)
+                event.child_event.add(selected_child)
+                print(checkbox_result)
+            event.save()
+            return redirect('/ABC/myEvents')
         else:
-            return redirect('/event/<int:event_id>/newJoin')
-    return redirect('/<int:event_id>/confirmation')
+            return redirect('/ABC/{event_id}/newJoin')
+
 
 
 def confirmJoin(request, event_id):
@@ -260,9 +263,6 @@ def delete_comment(request, event_id, comm_id):
     if this_comm.com_UserJoin ==  this_Logged_user:  #only owner of comment can delete OR in html -just show "delete" to owner.  
         this_comm.delete()       
     return redirect(f'/ABC/{event_id}/confirmJoin')
-
-
-# ----Lily's work in progress ---------------------------------------
 
 def add_like(request, event_id, msg_id):
     liked_message = Message.objects.get(id=msg_id)

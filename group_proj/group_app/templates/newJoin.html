@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -27,70 +28,55 @@
         </nav>
         <br>
         <br>
-        <!-- Need view.py update -->
+        <div>
+            <h1>Do You Want Your Child To Join?</h1>
+        </div>
+        <br>
         <section id="event_info">
-            <div>
-                <h1>Please confirm selection - {{ user.first_name }}!</h1>
-            </div>
-            <br>
-            <br>
             <h2>Event: {{ user_event.event_name }}</h2>
             <br>
             <p>Date: {{ user_event.event_date }}</p>
             <p>Time: {{ user_event.event_time }}</p>
             <p>Location: {{ user_event.location }}</a></p>
-            <p>Address: {{ user_event.full_address }}</p>
+            <p>Address: {{ user_event.street_address }} {{ user_event.city}} , {{ user_event.state}} {{ user_event.zip_code}}</p>
         </section>
         <br>
-        <section id="child_info">
-            
-            <div>
-                <form action="/ABC/{{user_event.id}}/confirmJoin" method="POST">
-                    {% csrf_token %}
-                    {% for child in children %}
-                    <div class="form-group">
-                        <label for="name">Child Name:</label>
-                        <input type="text" class="form-control" value="{{child.full_name}}">
-                    </div>
-                    <div class="form-group">
-                        <label for="join">Join?</label>
-                        <select class="custom-select" id="selector" name="dropdown">
-                            <option value="none">--SELECT--</option>
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>
-                        </select>
-                    </div>
-                    {% endfor %}
-                    <div class="form-group">
-                        <input type="hidden" name='child_id' value='{{child.id}}'>
-                        <button class="btn btn-secondary btn-lg btn-block" type="submit" id="btn">Confirm</button>
-                    </div>
-                </form>
-            </div>
-            
+        <section>
+            <form action="/ABC/event/{{user_event.id}}/requestJoin" method="POST">
+                {% csrf_token %}
+                <table class="table" id="child_info">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Child Name</th>
+                            <th scope="col">Grade</th>
+                            <th scope="col">Event Join?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for child in children %}
+                        <tr>
+                            <td>{{ child.full_name }}</td>
+                            <td>{{ child.age }}</td>
+                            <td>
+                                <div class="form-group">
+                                    <label for="child{{ child.id }}">Join</label>
+                                    <input type="checkbox" name="childrenJoin" id="{{ child.id }}"
+                                        value="{{ child.id }}">
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="form-group">
+                    <input type="hidden" name='child_id' value='{{child.id}}'>
+                    <button class="btn btn-success" type="submit">Confirm</button>
+                </div>
+            </form>
             <br>
             <br>
         </section>
     </div>
-    <script type="text/javascript">
-        let selector = document.getElementById('selector');
-        let btn = document.getElementById('btn');
-        let childId = document.getElementsByName('child_id');
-
-        btn.onclick = (event) => {
-            event.preventDefault();
-            // alert(selector.value);
-            if (selector.value == 'yes') {
-                location.href = "/ABC/{{user_event.id}}/confirmJoin"
-            }
-            else if (selector.value == 'no') {
-                location.href = "/ABC/{{user_event.id}}/confirmJoin"
-            }
-            else if (selector.value == 'none') {
-                alert("Please select either 'yes' or 'no'")
-            }
-        }
-    </script>
 </body>
 
 </html>
