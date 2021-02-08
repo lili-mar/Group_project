@@ -25,9 +25,7 @@
         <h1>Welcome, {{ user.first_name }}!</h1>
         <a href="/ABC/dashboard">Dashboard</a> | <a href="/ABC/childForm">Add a Child</a>
         <a class="float-right" href="/ABC/logout">Log Out</a>
-        <br><br><br>
-        <p> This is myEvents page</p>
-
+        <br><br>
 
         <br>
 
@@ -52,10 +50,14 @@
               <tr>
                 <td><a href="/ABC/{{event.id}}/confirmJoin">{{event.event_name}}</a></td>
                             <td><a href="/ABC/{{event.id}}/confirmJoin">{{event.location}}</a></td>
-                <td>{{ event.enrolled_child}}</td>
+                <td>{% for kid in child %}
+                      {% if kid in event.child_event.all %}
+                      {{ kid.first_name }}
+                      {% endif %}
+                    {% endfor %} </td>
                 <td>{{ event.event_date }}</td>
                 <td>{{ event.event_time }}</td>
-               
+            
 
                 <td>
                 
@@ -88,11 +90,16 @@
             <tbody>
               {% for event in past_events %}
               <tr>
-                <td><a href="/event/{{event.id}}">{{event.event_name}}</a></td>
-                <td><a href="/event/{{event.id}}">{{event.location}}</a></td>
-                <td>{{ event.enrolled_child}}</td>
+                <td>{{event.event_name}}</td>
+                <td>{{event.location}}</td>
+                <td>{% for kid in child %}
+                      {% if kid in event.child_event.all %}
+                      {{ kid.first_name}},
+                      {% endif %}
+                    {% endfor %} </td>
                 <td>{{ event.event_date }}</td>
                 <td>{{ event.event_time }}</td>
+      
                 
               </tr>
               {% endfor %}

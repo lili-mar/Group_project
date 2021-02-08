@@ -23,9 +23,6 @@ urlpatterns = [
 
     path('remove_child_myProfile', views.remove_child_myProfile,
          name='remove_child_myProfile'),  # remove child from myProfile
-
-
- # ---------Here we are.  We still need the below pages to work------------------------------------------
   
     path('remove_event_myEvents', views.remove_event_myEvents,
          name='remove_event_myEvents'),  # remove event from myEvents 
@@ -34,11 +31,8 @@ urlpatterns = [
     path('dashboard', views.dashboard),
     path('event/<int:event_id>/newJoin', views.viewJoin),
     path('event/<int:event_id>/requestJoin', views.requestJoin),
-    
-    
    
-     #path('confirmJoin', views.confirmJoin),
-    path('<int:event_id>/confirmJoin', views.confirmJoin),  #localhost:8000/ABC/<event_id/confirmJoin>
+    path('<int:event_id>/confirmJoin', views.confirmJoin),  
     path('createMessage/<int:event_id>', views.create_msg),
     path('createComment/<int:event_id>/<int:msg_id>', views.create_comment),
     path('deleteComment/<int:event_id>/<int:comm_id>', views.delete_comment),
