@@ -22,91 +22,84 @@
 <body>
   
     <div class="container">
-        <h1>Welcome, {{ user.first_name }}!</h1>
-        <a href="/ABC/dashboard">Dashboard</a> | <a href="/ABC/childForm">Add a Child</a>
-        <a class="float-right" href="/ABC/logout">Log Out</a>
-        <br><br>
+      <h1>Welcome, {{ user.first_name }}!</h1>
+      <a href="/ABC/dashboard">Dashboard</a> | <a href="/ABC/childForm">Add a Child</a>
+      <a class="float-right" href="/ABC/logout">Log Out</a>
+      <br><br><br>
 
-        <br>
-
-
-
-        <h1> Active joined events: </h1>
-            
-            <table class="table table-striped table-bordered table-hover">
-                <thead class="thead-dark">
-            
-              <tr>
-                <th scope="col">Event</th>
-                <th scope="col">Location </th>
-                <th scope="col">Child Name</th>
-                <th scope="col">Date</th>
-                <th scope="col">Time</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for event in future_events %}
-              <tr>
-                <td><a href="/ABC/{{event.id}}/confirmJoin">{{event.event_name}}</a></td>
-                            <td><a href="/ABC/{{event.id}}/confirmJoin">{{event.location}}</a></td>
-                <td>{% for kid in child %}
-                      {% if kid in event.child_event.all %}
-                      {{ kid.first_name }}
-                      {% endif %}
-                    {% endfor %} </td>
-                <td>{{ event.event_date }}</td>
-                <td>{{ event.event_time }}</td>
-            
-
-                <td>
-                
-                  <form action="{% url 'remove_event_myEvents' %}" method="post">
+      <h1> Active joined events: </h1>
+      <table class="table table-striped table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Event</th>
+            <th scope="col">Location </th>
+            <th scope="col">Child Name</th>
+            <th scope="col">Date</th>
+            <th scope="col">Time</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for event in future_events %}
+            <tr>
+              <td><a href="/ABC/{{event.id}}/confirmJoin">{{event.event_name}}</a></td>
+              <td><a href="/ABC/{{event.id}}/confirmJoin">{{event.location}}</a></td>
+              <td>{% for kid in child %}
+                    {% if kid in event.child_event.all %}
+                    {{ kid.first_name }}
+                    {% endif %}
+                  {% endfor %} </td>
+              <td>{{ event.event_date }}</td>
+              <td>{{ event.event_time }}</td>
+              <td>
+                <form action="{% url 'remove_event_myEvents' %}" method="post">
                   {% csrf_token %}
                   <input type="hidden" name='event_id' value='{{event.id}}'>
                   <button class="btn btn-sm btn-warning" type="submit">Cancel</button>
-                  </form>
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-            
-
-            
-            <h1> Past attended events </h1>
-
-            <table class="table table-striped table-bordered table-hover">
-                <thead class="thead-dark">
-            
-              <tr>
-                <th scope="col">Events</th>
-                <th scope="col">Location </th>
-                <th scope="col">Child Name</th>
-                <th scope="col">Date</th>
-                <th scope="col">Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for event in past_events %}
-              <tr>
-                <td>{{event.event_name}}</td>
-                <td>{{event.location}}</td>
-                <td>{% for kid in child %}
-                      {% if kid in event.child_event.all %}
-                      {{ kid.first_name}},
-                      {% endif %}
-                    {% endfor %} </td>
-                <td>{{ event.event_date }}</td>
-                <td>{{ event.event_time }}</td>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% if future_events.count == 0%} 
+        <p style="display:inline; color:  red;"><strong>Join an EVENT thru our:</strong> <a href="/ABC/dashboard"><strong>Dashboard</strong></a></p> 
+        <br><br>
+      {% endif %} 
+      <br>
       
-                
-              </tr>
-              {% endfor %}
-            </tbody>
-            
-          </table>
-            
+      <h1> Past attended events </h1>
+      <table class="table table-striped table-bordered table-hover">
+        <thead class="thead-dark"> 
+          <tr>
+            <th scope="col">Events</th>
+            <th scope="col">Location </th>
+            <th scope="col">Child Name</th>
+            <th scope="col">Date</th>
+            <th scope="col">Time</th>
+          </tr>
+        </thead>
+        <tbody> 
+          {% for event in past_events %}
+            <tr>
+              <td>{{event.event_name}}</td>
+              <td>{{event.location}}</td>
+              <td>{% for kid in child %}
+                    {% if kid in event.child_event.all %}
+                    {{ kid.first_name}},
+                    {% endif %}
+                  {% endfor %} </td>
+              <td>{{ event.event_date }}</td>
+              <td>{{ event.event_time }}</td>
+            </tr>
+          {% endfor %} 
+        </tbody>
+      </table>
+      
+      {% if past_events.count == 0%} 
+        <h4> You currently have Not attended any events -we hope  you can join an active event today!</h4>  
+        <br><br>
+      {% endif %} 
 
     </div>
 </body>
