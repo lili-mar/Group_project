@@ -30,6 +30,7 @@ def login(request):
 
             this_user = User.objects.get(email=request.POST['email'])
             request.session['user_id'] = this_user.id
+            # messages.success(request, "You have successfully logged in!")
             return redirect('/ABC/myEvents')
 
 
@@ -92,6 +93,8 @@ def regChild(request):
                 program=request.POST['child_program'],
                 parent_child=user,
             )
+
+    # when successful Register a Child is click redirect back to myProfile
     return redirect('/ABC/myProfile')
 
 
@@ -134,8 +137,10 @@ def remove_child_myProfile(request):
         else:
             return redirect('/ABC')
 
-
 def remove_event_myEvents(request):
+    # if 'event_id' not in request.session:
+    #     return redirect('/ABC/myEvents')
+    # else:
     if request.method == "POST":
         event= Event.objects.get(id=request.POST['event_id'])
         event.delete()
@@ -143,13 +148,12 @@ def remove_event_myEvents(request):
     else:
         return redirect('/ABC')
 
-
 def myEvents(request):
     if 'user_id' not in request.session:
         return redirect('/ABC')
     user = User.objects.get(id=request.session['user_id'])
-    past_events=Event.objects.filter(event_date__lte = datetime.today(), user_event = User.objects.get(id=request.session['user_id']) )
-    future_events=Event.objects.filter(event_date__gte = datetime.today(), user_event = User.objects.get(id=request.session['user_id']) )
+    past_events=Event.objects.filter(event_date__lte = datetime.today())
+    future_events=Event.objects.filter(event_date__gte = datetime.today())
     child=Child.objects.filter(parent_child=user)
     context = {
         'user': user,
@@ -164,11 +168,12 @@ def dashboard(request):
     if 'user_id' not in request.session:
         return redirect('/ABC')
     user = User.objects.get(id=request.session['user_id'])
-    events = Event.objects.filter(event_date__gte = datetime.today())
+    events = Event.objects.all()
 
     context = {
         'user': user,
         'events': events,
+        # 'total_num': total_num,
     }
     return render(request, 'dashboard.html', context)
 
@@ -207,6 +212,7 @@ def requestJoin(request, event_id):
             return redirect('/ABC/{event_id}/newJoin')
 
 
+
 def confirmJoin(request, event_id):
     this_event = Event.objects.filter(id=event_id)  #d_id comes from the urls.py parm.  FILTER is SO important here -do not use GET!       
     if len(this_event) != 1:
@@ -236,7 +242,6 @@ def create_msg(request, event_id):
             )
     return redirect(f'/ABC/{event_id}/confirmJoin')
 
-
 def create_comment(request, event_id, msg_id):
     errors = Comment.objects.comm_validator(request.POST)
     if len(errors):
@@ -251,7 +256,6 @@ def create_comment(request, event_id, msg_id):
             )   
     return redirect(f'/ABC/{event_id}/confirmJoin')
 
-
 def delete_comment(request, event_id, comm_id):
     this_comm = Comment.objects.get(id=comm_id)
     this_Logged_user = User.objects.get(id=request.session['user_id'])
@@ -260,13 +264,11 @@ def delete_comment(request, event_id, comm_id):
         this_comm.delete()       
     return redirect(f'/ABC/{event_id}/confirmJoin')
 
-
 def add_like(request, event_id, msg_id):
     liked_message = Message.objects.get(id=msg_id)
     user_liking = User.objects.get(id=request.session['user_id'])
     liked_message.user_likes.add(user_liking)
     return redirect(f'/ABC/{event_id}/confirmJoin')
-
 
 def remove_like(request, event_id, msg_id):
     liked_message = Message.objects.get(id=msg_id)
